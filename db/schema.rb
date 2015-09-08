@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828132451) do
+ActiveRecord::Schema.define(version: 20150907135643) do
 
   create_table "account_deletions", force: :cascade do |t|
     t.string   "diaspora_handle", limit: 255
@@ -136,6 +136,14 @@ ActiveRecord::Schema.define(version: 20150828132451) do
   end
 
   add_index "conversations", ["author_id"], name: "conversations_author_id_fk", using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "name",       limit: 255
+    t.string   "location",   limit: 255
+    t.datetime "datetime"
+  end
 
   create_table "invitation_codes", force: :cascade do |t|
     t.string   "token",      limit: 255
@@ -419,7 +427,7 @@ ActiveRecord::Schema.define(version: 20150828132451) do
     t.string   "location",         limit: 255
     t.string   "full_name",        limit: 70
     t.boolean  "nsfw",                           default: false
-    t.boolean  "public_details",               default: false
+    t.boolean  "public_details",                 default: false
   end
 
   add_index "profiles", ["full_name", "searchable"], name: "index_profiles_on_full_name_and_searchable", using: :btree
