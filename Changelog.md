@@ -70,6 +70,17 @@ With the port to Bootstrap 3, app/views/terms/default.haml has a new structure. 
 * Bigger mobile publisher [#6261](https://github.com/diaspora/diaspora/pull/6261)
 * Backend information panel & health checks for known pods [#6290](https://github.com/diaspora/diaspora/pull/6290)
 
+# 0.5.4.0
+
+## Refactor
+
+## Bug fixes
+
+## Features
+* Show spinner on initial stream load [#6384](https://github.com/diaspora/diaspora/pull/6384)
+* Add new moderator role. Moderators can view and act on reported posts [#6351](https://github.com/diaspora/diaspora/pull/6351)
+* Only post to the primary tumblr blog [#6386](https://github.com/diaspora/diaspora/pull/6386)
+
 # 0.5.3.0
 
 ## Refactor
