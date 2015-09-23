@@ -56,6 +56,9 @@ class Person < ActiveRecord::Base
 
   has_many :mentions, :dependent => :destroy
 
+  has_many :event_invitations
+  has_many :event_participations
+
   before_validation :clean_url
 
   validates :url, :presence => true
