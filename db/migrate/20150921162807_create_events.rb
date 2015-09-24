@@ -10,16 +10,10 @@ class CreateEvents < ActiveRecord::Migration
     end
 
     create_table :event_participations do |t|
-      t.string :person_guid
-      t.string :event_guid
-
-      t.timestamps null: false
-    end
-
-    create_table :event_invitations do |t|
-      t.string :author_guid
-      t.string :target_guid
-      t.string :event_guid
+      t.string :person
+      t.string :event
+      t.string :invited_by
+      t.boolean :attending
 
       t.timestamps null: false
     end
