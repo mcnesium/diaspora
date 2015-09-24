@@ -1,18 +1,16 @@
 class EventsController < ApplicationController
-  
-  respond_to :html, :json
+
+  respond_to :all
 
   def index
     respond_with do |format|
-      format.html { render :json => Event.all }
-      format.json { render :json => Event.all }
+      format.all { render :json => Event.all }
     end
   end
 
   def show
     respond_with do |format|
-      format.html { render :json => Event.find(params[:id]) }
-      format.json { render :json => Event.find(params[:id]) }
+      format.all { render :json => Event.find_by_guid(params[:id]).to_json( :include => :event_participations ) }
     end
   end
 
