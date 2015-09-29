@@ -14,4 +14,13 @@ class EventsController < ApplicationController
     end
   end
 
+  def create
+    respond_with do |format|
+      format.all {
+        Event.create( title:params[:title], start:params[:start] )
+        render :json => { result: "ok" }
+      }
+    end
+  end
+
 end

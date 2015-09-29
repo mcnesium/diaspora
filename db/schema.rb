@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923153050) do
+ActiveRecord::Schema.define(version: 20150924145601) do
 
   create_table "account_deletions", force: :cascade do |t|
     t.string   "diaspora_handle", limit: 255
@@ -146,10 +146,12 @@ ActiveRecord::Schema.define(version: 20150923153050) do
   end
 
   create_table "event_participations", force: :cascade do |t|
-    t.string   "person_guid", limit: 255
-    t.string   "event_guid",  limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "person",     limit: 255
+    t.string   "event",      limit: 255
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "invited_by", limit: 255
+    t.boolean  "attending",              default: false
   end
 
   create_table "events", force: :cascade do |t|
