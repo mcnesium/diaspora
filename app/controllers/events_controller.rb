@@ -18,12 +18,15 @@ class EventsController < ApplicationController
   def create
     respond_with do |format|
       format.all {
-        @event = Event.create( title: params[:title], start: params[:start] )
-        # @ep = EventParticipation.create(
-        #   person: current_user.guid,
-        #   event: @event.guid,
-        #   status: 2
-        # )
+        @event = Event.create(
+            title: params[:title],
+            start: params[:start],
+        )
+        @ep = EventParticipation.create(
+           person: current_user.guid,
+           event: @event.guid,
+           status: EventParticipation.statuses[:owner]
+        )
         render :json => { result: "ok" }
       }
     end

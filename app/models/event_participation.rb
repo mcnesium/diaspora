@@ -8,7 +8,11 @@ class EventParticipation < ActiveRecord::Base
 
   # validate :invited_xor_attending
 
-  enum status: [ :guest, :promoter, :owner ]
+  enum status: {
+      :guest => 0,
+      :promoter => 1,
+      :owner => 2
+  }
 
   private
 
