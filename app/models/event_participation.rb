@@ -1,9 +1,9 @@
 class EventParticipation < ActiveRecord::Base
 
-  belongs_to :event, :foreign_key => :event
+  belongs_to :event, :foreign_key => :event, :primary_key => :guid
   validates :event, presence: true
 
-  belongs_to :person, :foreign_key => :person
+  belongs_to :person, :foreign_key => :person, :primary_key => :guid
   validates :person, presence: true
 
   # validate :invited_xor_attending
