@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
+  skip_before_filter :verify_authenticity_token
 
   respond_to :all
 
@@ -23,8 +24,8 @@ class EventsController < ApplicationController
             start: params[:start],
         )
         @ep = EventParticipation.create(
-           person: current_user.guid,
-           event: @event.guid,
+           person: current_user.person,
+           event: @event,
            status: EventParticipation.statuses[:owner]
         )
         render :json => { result: "ok" }
