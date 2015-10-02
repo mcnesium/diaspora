@@ -15,7 +15,9 @@ class Event < ActiveRecord::Base
 
   # forward some requests to status message
   delegate :author, :author_id, :diaspora_handle, :public?, :subscribers, to: :status_message
-  # TODO alle eigenschaften, has many event_participation model, belongs_to person, usw
-  # Location
+  # TODO  Location
+
+  validates :title, length: { minimum: 1, maximum: 255 }
+  validates :start, presence: true
 
 end

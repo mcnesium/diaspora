@@ -2,59 +2,55 @@ class EventsController < ApplicationController
   before_action :authenticate_user!
   skip_before_filter :verify_authenticity_token
 
-  respond_to :all
-
   def index
-    respond_with do |format|
-      format.all { render :json => Event.all }
-    end
+    # return all known events
+    render :json => Event.all, content_type: "application/json"
   end
 
   def show
-    respond_with do |format|
-      format.all { render :json => Event.find_by_guid(params[:id]).to_json( :include => :event_participations ) }
-    end
+    # return given event, include event-related participations
+    render :json => Event.find_by_guid(params[:id])
+      .to_json( :include => :event_participations ),
+      content_type: "application/json"
   end
 
   def create
-    respond_with do |format|
-      format.all {
-        event = Event.create(
-            title: params[:title],
-            start: params[:start],
-        )
-        ep = EventParticipation.create(
-           person: current_user.person,
-           event: @event,
-           status: EventParticipation.statuses[:owner]
-        )
-        render :json => { result: event }
-      }
-    end
+    # create new event with given params
+    event = Event.create(
+        title: params[:title],
+        start: params[:start],
+    )
+    # create participation, set the current user to the event's owner
+    EventParticipation.create(
+       person: current_user.person,
+       event: event,
+       role: EventParticipation.roles[:owner]
+    )
+    # return created event
+    render :json => { result: event }, content_type: "application/json"
   end
 
   def update
+    # get given event, check if it actually exists
+    event = Event.find_by_guid!(params[:id])
 
-    ev = Event.find_by_guid(params[:id])
-    ep = EventParticipation.find_by_event_and_person(ev, current_user.person)
+    # get event-related event participation
+    ep = EventParticipation.find_by_event_and_person(event, current_user.person)
 
-    unless ev || ep || ep.privileged?
-      format.all {
-        render :json => { result: "false" }
-      }
+    # return false and exit if current user is not related or not privileged
+    if ep == nil || !ep.privileged?
+      render :json => { result: false }, content_type: "application/json"
       return
     end
-    # TOTO darf sachen ändern
-    if params[:title]
-      ev.title = params[:title] # oder oder gleich
-    end
-    # für die anderen sachen auch so
-    ev.save
+
+    # else, if current user is allowed, edit the event details
+    event.title ||= params[:title]
+    event.start ||= params[:start]
+    event.save
     
-      render :json => { result: ev } 
-    
+    # return updated event
+    render :json => { result: event }, content_type: "application/json"
 
   end
-
 
 end
