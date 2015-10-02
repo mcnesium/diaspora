@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :only => [:create, :update]
   skip_before_filter :verify_authenticity_token
 
   def index
