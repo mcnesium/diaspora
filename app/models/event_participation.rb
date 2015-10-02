@@ -6,23 +6,26 @@ class EventParticipation < ActiveRecord::Base
   belongs_to :person, :foreign_key => :person, :primary_key => :guid
   validates :person, presence: true
 
-  validate :invited_xor_attending
-
-  enum status: {
+  # roles a person can have in relation to an event
+  enum role: {
       :guest => 0,
       :promoter => 1,
       :owner => 2
   }
 
+  # a relation of a person to an event is privileged if at least promoter role
   def privileged?
-    self[:status] >= EventParticipation.statuses[:promoter]
+    self[:role] >= EventParticipation.roles[:promoter]
   end
+
+  validate :additional_flags
 
   private
 
-    def invited_xor_attending # TODO naming
+    # check for any of invited, attending or privileged properties
+    def additional_flags
       unless self.invited_by? || self.attending? || self.privileged?
-        raise "Must be invited or attending"
+        raise "Must include invited_by, attending, or role >= promoter"
       end
     end
 
