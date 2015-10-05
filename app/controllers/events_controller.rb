@@ -27,9 +27,8 @@ class EventsController < ApplicationController
        role: EventParticipation.roles[:owner]
     )
     # return created event
-    render :json => { result: event }
-      .to_json( :include => :event_participations ),
-      content_type: "application/json"
+    render :json => event.to_json( :include => :event_participations ),
+            content_type: "application/json"
   end
 
   def update
@@ -41,7 +40,7 @@ class EventsController < ApplicationController
 
     # return false and exit if current user is not related or not privileged
     if ep == nil || !ep.privileged?
-      render :json => { result: false }, content_type: "application/json"
+      render :json => false, content_type: "application/json"
       return
     end
 
@@ -51,7 +50,7 @@ class EventsController < ApplicationController
     event.save
     
     # return updated event
-    render :json => { result: event }, content_type: "application/json"
+    render :json => event, content_type: "application/json"
 
   end
 
