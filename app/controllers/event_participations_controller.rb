@@ -9,40 +9,48 @@ class EventParticipationsController < ApplicationController
   end
 
   def create
-    begin
-      # try to create new participation entry
-      event = Event.find_by_guid(params[:event])
-      person = Person.find_by_guid(params[:person]) || current_user.person
-byebug
-      if person == current_user.person
-        # attend to event, if this is me
-        participation = EventParticipation.create(
-          person: person,
-          event: event,
-          attending: 1
-        )
-      else
-        # otherwise invite that person
-        participation = EventParticipation.create(
-          person: person,
-          event: event,
-          invited_by: current_user.person,
-        )
-      end
-
-    rescue ActiveRecord::RecordNotUnique
-      # participation recort already exists, update it
-      participation = EventParticipation.find_by_event_and_person(event,person)
-      
-      # update own attendance
-      if person == current_user.person && !params[:attending].nil?
-        participation.attending = params[:attending].to_b
-        participation.save
-      end
-
-    end
+    event = Event.find_by_guid(params[:event])
+    person = Person.find_by_guid(params[:person]) || current_user.person
+    participation = EventParticipation.find_by(event: event, person: person)
     
     render :json => { result: participation }
+
+
+    # if participation
+    #   render :json => { result: participation }
+    # end
+
+#     begin
+#       # try to create new participation entry
+# byebug
+#       if person == current_user.person
+#         # attend to event, if this is me
+#         participation = EventParticipation.create(
+#           person: person,
+#           event: event,
+#           attending: 1
+#         )
+#       else
+#         # otherwise invite that person
+#         participation = EventParticipation.create(
+#           person: person,
+#           event: event,
+#           invited_by: current_user.person,
+#         )
+#       end
+
+#     rescue ActiveRecord::RecordNotUnique
+#       # participation recort already exists, update it
+#       participation = EventParticipation.find_by_event_and_person(event,person)
+      
+#       # update own attendance
+#       if person == current_user.person && !params[:attending].nil?
+#         participation.attending = params[:attending].to_b
+#         participation.save
+#       end
+
+#     end
+    
 
     # get participation relation
     # if participation.nil? 
