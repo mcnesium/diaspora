@@ -8,17 +8,39 @@ class EventParticipationsController < ApplicationController
       content_type: "application/json"
   end
 
-  # def create
-  #   event = Event.find(params[:event_id])
-  #   person = Person.find(params[:person_id]) || current_user.person
-  #   participation = EventParticipation.find_by_event_and_person(event,person)
+  def create
+    event = Event.find(params[:event])
+
+    # check if this is about me or another person
+    if params[:person]
+        person = Person.find(params[:person])
+    else
+        person = current_user.person
+    end
+
+    # find an already existing participation
+    participation = EventParticipation.find_by(event:event,person:person)
     
-  #   render :json => { result: participation }
+    # existing participation
+    if participation
 
+      # update own attendance
+      # if person == current_user.person && !params[:attending].nil?
+      if params[:attending] && person == current_user.person
+        participation.attending = params[:attending].to_b
+        participation.save
+      end
 
-    # if participation
-    #   render :json => { result: participation }
-    # end
+      # if 
+
+      render :json => participation
+
+    # new participation
+    else
+
+      render :json => new
+    end
+  end
 
 #     begin
 #       # try to create new participation entry
