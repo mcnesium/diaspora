@@ -25,101 +25,41 @@ class EventParticipationsController < ApplicationController
     if participation
 
       # update own attendance
-      # if person == current_user.person && !params[:attending].nil?
       if params[:attending] && person == current_user.person
         participation.attending = params[:attending].to_b
         participation.save
       end
 
-      # if 
-
-      render :json => participation
+      # update role
+      if params[:role] && participation.privileged?
+        participation.role = params[:role].to_i
+        participation.save
+      end
 
     # new participation
     else
 
-      render :json => new
+      # attend to event, if this is me
+      if person == current_user.person
+        participation = EventParticipation.create(
+          person: person,
+          event: event,
+          attending: 1
+        )
+      # otherwise invite that person
+      else
+        participation = EventParticipation.create(
+          person: person,
+          event: event,
+          invited_by: current_user.id,
+        )
+      end
+
     end
+
+    render :json => participation, content_type: "application/json"
+
   end
-
-#     begin
-#       # try to create new participation entry
-# byebug
-#       if person == current_user.person
-#         # attend to event, if this is me
-#         participation = EventParticipation.create(
-#           person: person,
-#           event: event,
-#           attending: 1
-#         )
-#       else
-#         # otherwise invite that person
-#         participation = EventParticipation.create(
-#           person: person,
-#           event: event,
-#           invited_by: current_user.person,
-#         )
-#       end
-
-#     rescue ActiveRecord::RecordNotUnique
-#       # participation recort already exists, update it
-#       participation = EventParticipation.find_by_event_and_person(event,person)
-      
-#       # update own attendance
-#       if person == current_user.person && !params[:attending].nil?
-#         participation.attending = params[:attending].to_b
-#         participation.save
-#       end
-
-#     end
-    
-
-    # get participation relation
-    # if participation.nil? 
-    #   # no existing event-person-relation yet
-
-    #   if person == current_user.person
-    #     # attend to event, if this is me
-    #     participation = EventParticipation.create(
-    #       person: person,
-    #       event: event,
-    #       attending: 1
-    #     )
-    #   else
-    #     # otherwise invite that person
-    #     participation = EventParticipation.create(
-    #       person: person,
-    #       event: event,
-    #       invited_by: current_user.person,
-    #     )
-    #   end
-
-    #   render :json => { result: participation }, content_type: "application/json"
-
-    #   # # TODO andere einladen nur wenn man selbst participated?
-    #   # # TODO only if not exists yet
-
-    # else
-    #   render :json => { error: "exists", participation: participation },
-    #     content_type: "application/json"
-
-    #   # event-person-relation already exists, one can only change own attendance
-    #   # if person == current_user.person && params[:attending] != nil
-    #   #   # set given attendance update
-    #   #   participation.attending = params[:attending]
-    #   #   participation.save
-    #   # end
-
-    # end
-
-    # if person.owner? && params[:role] != nil
-    #   participation.role = params[:role]
-    #   participation.save
-    # end
-
-    # render :json => { result: participation }, content_type: "application/json"
-
-  # end
 
 end
 # TODO Tests
