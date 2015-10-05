@@ -6,6 +6,8 @@ class EventParticipation < ActiveRecord::Base
   belongs_to :person, :foreign_key => :person, :primary_key => :guid
   validates :person, presence: true
 
+  validates_uniqueness_of :event, scope: [:person]
+
   # roles a person can have in relation to an event
   enum role: {
       :guest => 0,

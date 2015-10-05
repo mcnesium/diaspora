@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929155140) do
+ActiveRecord::Schema.define(version: 20151002103814) do
 
   create_table "account_deletions", force: :cascade do |t|
     t.string   "diaspora_handle", limit: 255
@@ -144,8 +144,10 @@ ActiveRecord::Schema.define(version: 20150929155140) do
     t.datetime "updated_at",                             null: false
     t.string   "invited_by", limit: 255
     t.boolean  "attending",              default: false
-    t.integer  "status",     limit: 4,   default: 0
+    t.integer  "role",       limit: 4,   default: 0
   end
+
+  add_index "event_participations", ["event", "person"], name: "index_event_participations_on_event_and_person", unique: true, length: {"event"=>32, "person"=>32}, using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "title",      limit: 255
