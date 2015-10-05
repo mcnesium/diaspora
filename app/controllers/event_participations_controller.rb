@@ -4,16 +4,16 @@ class EventParticipationsController < ApplicationController
 
   def show
     # return given participation
-    render :json => EventParticipation.find_by_event(params[:id]),
+    render :json => EventParticipation.find_by_event_id(params[:id]),
       content_type: "application/json"
   end
 
-  def create
-    event = Event.find_by_guid(params[:event])
-    person = Person.find_by_guid(params[:person]) || current_user.person
-    participation = EventParticipation.find_by(event: event, person: person)
+  # def create
+  #   event = Event.find(params[:event_id])
+  #   person = Person.find(params[:person_id]) || current_user.person
+  #   participation = EventParticipation.find_by_event_and_person(event,person)
     
-    render :json => { result: participation }
+  #   render :json => { result: participation }
 
 
     # if participation
@@ -97,7 +97,7 @@ class EventParticipationsController < ApplicationController
 
     # render :json => { result: participation }, content_type: "application/json"
 
-  end
+  # end
 
 end
 # TODO Tests

@@ -138,8 +138,8 @@ ActiveRecord::Schema.define(version: 20151002103814) do
   add_index "conversations", ["author_id"], name: "conversations_author_id_fk", using: :btree
 
   create_table "event_participations", force: :cascade do |t|
-    t.string   "person",     limit: 255
-    t.string   "event",      limit: 255
+    t.string   "person_id",  limit: 255
+    t.string   "event_id",   limit: 255
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.string   "invited_by", limit: 255
@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 20151002103814) do
     t.integer  "role",       limit: 4,   default: 0
   end
 
-  add_index "event_participations", ["event", "person"], name: "index_event_participations_on_event_and_person", unique: true, length: {"event"=>32, "person"=>32}, using: :btree
+  add_index "event_participations", ["event_id", "person_id"], name: "index_event_participations_on_event_id_and_person_id", unique: true, length: {"event_id"=>32, "person_id"=>32}, using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "title",      limit: 255

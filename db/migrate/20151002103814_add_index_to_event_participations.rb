@@ -1,6 +1,8 @@
 class AddIndexToEventParticipations < ActiveRecord::Migration
   def change
-    add_index :event_participations, [:event, :person], unique: true,
-              :length => { :event => 32, :person => 32 }
+    rename_column :event_participations, :person, :person_id
+
+    add_index :event_participations, [:event_id, :person_id], unique: true,
+                :length => { :event_id => 32, :person_id => 32 }
   end
 end

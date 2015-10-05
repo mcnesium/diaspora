@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
 
   # belongs_to :status_message
 
-  has_many :event_participations, :primary_key => :guid, :foreign_key => :event
+  has_many :event_participations
 
   # xml_attr :guid
   # xml_attr :title

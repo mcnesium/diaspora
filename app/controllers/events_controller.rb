@@ -9,7 +9,7 @@ class EventsController < ApplicationController
 
   def show
     # return given event, include event-related participations
-    render :json => Event.find_by_guid(params[:id])
+    render :json => Event.find(params[:id])
       .to_json( :include => :event_participations ),
       content_type: "application/json"
   end
@@ -27,12 +27,14 @@ class EventsController < ApplicationController
        role: EventParticipation.roles[:owner]
     )
     # return created event
-    render :json => { result: event }, content_type: "application/json"
+    render :json => { result: event }
+      .to_json( :include => :event_participations ),
+      content_type: "application/json"
   end
 
   def update
     # get given event, check if it actually exists
-    event = Event.find_by_guid!(params[:id])
+    event = Event.find!(params[:id])
 
     # get event-related event participation
     ep = EventParticipation.find_by_event_and_person(event, current_user.person)

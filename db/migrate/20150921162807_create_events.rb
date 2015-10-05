@@ -14,6 +14,7 @@ class CreateEvents < ActiveRecord::Migration
       t.string :event
       t.string :invited_by
       t.boolean :attending
+      t.integer :role, default: 0
 
       t.timestamps null: false
     end

@@ -1,9 +1,9 @@
 class EventParticipation < ActiveRecord::Base
 
-  belongs_to :event, :foreign_key => :event, :primary_key => :guid
+  belongs_to :event
   validates :event, presence: true
 
-  belongs_to :person, :foreign_key => :person, :primary_key => :guid
+  belongs_to :person
   validates :person, presence: true
 
   validates_uniqueness_of :event, scope: [:person]
