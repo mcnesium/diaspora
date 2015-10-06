@@ -21,7 +21,7 @@ class EventsController < ApplicationController
     # check if valid date or return error
     begin
         start = Date.parse(params[:start])
-    rescue => e
+    rescue ArgumentError => e
       render :json => { "error": "Invalid date" },
               status: 400,
               content_type: "application/json"
