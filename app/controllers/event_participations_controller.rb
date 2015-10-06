@@ -31,9 +31,14 @@ class EventParticipationsController < ApplicationController
       end
 
       # update role
-      if params[:role] && participation.privileged?
-        participation.role = params[:role].to_i
-        participation.save
+      if params[:role]
+        # check if current user participation is privileged
+        if EventParticipation
+            .find_by( event: event, person: current_user.person )
+            .privileged?
+          participation.role = params[:role]
+          participation.save
+        end
       end
 
     # new participation
