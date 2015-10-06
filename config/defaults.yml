@@ -41,6 +41,7 @@ defaults:
   server:
     listen: '0.0.0.0:3000'
     rails_environment: 'development'
+    pid:
     stderr_log:
     stdout_log:
     unicorn_worker: 2
@@ -75,6 +76,11 @@ defaults:
       log:
         file: 'log/vines.log'
         level: 'info'
+  map:
+    mapbox:
+      enabled: false
+      id:
+      access_token:
   privacy:
     jquery_cdn: false
     google_analytics_key:
@@ -211,6 +217,9 @@ development:
       serve: true
     single_process_mode: true
     require_ssl: false
+    logging:
+      debug:
+        sql: true
   server:
     unicorn_worker: 1
   settings:

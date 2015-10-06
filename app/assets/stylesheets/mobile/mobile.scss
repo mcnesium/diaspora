@@ -1,7 +1,8 @@
-@import "bootstrap-complete";
 @import "colors";
+@import "bootstrap-complete";
 @import "_mixins";
 @import "vendor/autoSuggest";
+@import 'animations';
 @import "_flash_messages";
 @import 'entypo';
 @import 'icons';
@@ -13,7 +14,7 @@
 @import "mobile/stream_element";
 @import "mobile/comments";
 
-@import "new_styles/typography";
+@import 'typography';
 
 a {
   color: #2489ce;
@@ -26,11 +27,7 @@ code {
   }
 
 body {
-  background: {
-    image: image-url("mobile/hatched-light.jpg");
-    /* scale background image down for iOS retina display */
-    size: 200px;
-  }
+  background-color: $sidebars-background;
   padding: 0;
 }
 
@@ -45,6 +42,8 @@ h3 {  margin-top: 0; }
 .avatar {
   border-radius: 4px;
 }
+
+.badge-important { background-color: $red; }
 
 .stream_element,
 .comments {
@@ -404,15 +403,11 @@ h3 {  margin-top: 0; }
 #new_status_message {
   margin: 0;
 
-  fieldset {
-    padding: 10px;
+  .service_icon {
+    cursor: pointer;
 
-    .service_icon {
-      cursor: pointer;
-
-      &.dim {
-        opacity: 0.6;
-      }
+    &.dim {
+      opacity: .6;
     }
   }
 
@@ -527,31 +522,6 @@ select {
 
 .notification_day_header {
   margin-bottom: 5px;
-}
-
-.message_count {
-  border-radius: 2px 2px 2px 2px;
-  float: right;
-  margin: 10px 10px 1px 5px;
-  padding: 0 2px 1px;
-  position: relative;
-  background-color: #999;
-  color: #eee;
-  font-size: 10px;
-  line-height: 12px;
-
-}
-
-.unread_message_count {
-  border-radius: 2px 2px 2px 2px;
-  float: right;
-  margin: 10px 2px 1px 5px;
-  padding: 0 2px 1px;
-  position: relative;
-  background-color: #B11;
-  color: #EEE;
-  font-size: 10px;
-  line-height: 12px;
 }
 
 .last_author {
