@@ -41,6 +41,10 @@ class EventsController < ApplicationController
         title: params[:title],
         start: params[:start],
     )
+    Postzord::Dispatcher.defer_build_and_post(current_user, event,
+                      url: 'http://mcobst.fritz.box:3000/events/'+event.id.to_s,
+                      # service_types: receiving_services)
+    )
     # create participation, set the current user to the event's owner
     EventParticipation.create(
        person: current_user.person,
