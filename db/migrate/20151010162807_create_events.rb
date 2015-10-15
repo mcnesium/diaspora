@@ -10,7 +10,7 @@ class CreateEvents < ActiveRecord::Migration
     end
 
     create_table :event_participations do |t|
-      t.string :person
+      t.string :person_id
       t.string :event
       t.string :invited_by
       t.boolean :attending
@@ -19,5 +19,7 @@ class CreateEvents < ActiveRecord::Migration
       t.timestamps null: false
     end
 
+    add_index :event_participations, [:event_id, :person_id], unique: true,
+                :length => { :event_id => 32, :person_id => 32 }
   end
 end
