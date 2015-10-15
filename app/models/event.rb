@@ -15,7 +15,7 @@ class Event < ActiveRecord::Base
   # xml_attr :image
 
   # forward some requests to status message
-  # delegate :author, :author_id, :diaspora_handle, :public?, :subscribers,# to: :status_message
+  # delegate :author, :author_id, :diaspora_handle, :public?, :subscribers, to: :status_message
   # TODO  Location
 
   validates :title, length: { minimum: 1, maximum: 255 }
@@ -24,5 +24,10 @@ class Event < ActiveRecord::Base
   def subscribers(user)
     user.contact_people
   end
-
+  def diaspora_handle
+    self.owner.diaspora_handle
+  end
+  def owner
+    self.event_participations.find_by(event: self, role: EventParticipation.roles[:owner]).person
+  end
 end
