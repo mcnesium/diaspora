@@ -28,6 +28,6 @@ class Event < ActiveRecord::Base
     self.owner.diaspora_handle
   end
   def owner
-    self.event_participations.find_by(event: self, role: 2).person
+    current_user.person
   end
 end
