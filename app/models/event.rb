@@ -2,11 +2,11 @@ class Event < ActiveRecord::Base
   include Diaspora::Federated::Base
   include Diaspora::Guid
 
-  has_many :event_participations
-
   xml_attr :title
   xml_attr :start
   xml_attr :event_participations, :as => [EventParticipation]
+
+  has_many :event_participations
 
   validates :title, length: { minimum: 1, maximum: 255 }
   validates :start, presence: true
