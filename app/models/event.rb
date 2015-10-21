@@ -8,6 +8,8 @@ class Event < ActiveRecord::Base
 
   has_many :event_participations
 
+  accepts_nested_attributes_for :event_participations
+
   validates :title, length: { minimum: 1, maximum: 255 }
   validates :start, presence: true
 
