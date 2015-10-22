@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
   def diaspora_handle
-    binding.pry
+    # binding.pry
     self.owner.diaspora_handle
   end
   def owner
