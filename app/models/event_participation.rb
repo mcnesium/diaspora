@@ -5,8 +5,8 @@ class EventParticipation < ActiveRecord::Base
   # xml_attr :person_guid
   # xml_attr :event_guid
   # xml_attr :invited_by, :as => :person_guid
-  # xml_attr :attending
-  # xml_attr :role
+  xml_attr :attending
+  xml_attr :role
 
   belongs_to :event
   validates :event, presence: true

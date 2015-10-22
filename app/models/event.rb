@@ -21,6 +21,6 @@ class Event < ActiveRecord::Base
     self.owner.diaspora_handle
   end
   def owner
-    return Person.find_by(self.event_participations.first.person_id)
+    Person.find_by(self.event_participations.first.person_id)
   end
 end
