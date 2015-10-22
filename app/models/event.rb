@@ -24,7 +24,7 @@ class Event < ActiveRecord::Base
     # participation = EventParticipation.find_by(event: self);
     # person = Person.find_by(participation.person_id)
     # binding.pry
-    # return person
-    event_participations.where(role: "owner").first.person
+    return person
+    # event_participations.where(role: "owner").first.person
   end
 end
