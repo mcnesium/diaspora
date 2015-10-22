@@ -31,6 +31,7 @@ class EventParticipation < ActiveRecord::Base
   validate :additional_flags
 
   def diaspora_handle
+    binding.pry
     self.person.diaspora_handle
   end
 
