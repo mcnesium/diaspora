@@ -20,10 +20,11 @@ class Event < ActiveRecord::Base
     self.owner.diaspora_handle
   end
   def owner
-    participation = EventParticipation.find_by(event: self);
-    person = Person.find_by(participation.person_id)
     binding.pry
-    return person
-    # event_participations.where(role: "owner").first.person
+    # participation = EventParticipation.find_by(event: self);
+    # person = Person.find_by(participation.person_id)
+    # binding.pry
+    # return person
+    event_participations.where(role: "owner").first.person
   end
 end

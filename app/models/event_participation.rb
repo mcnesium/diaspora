@@ -34,6 +34,9 @@ class EventParticipation < ActiveRecord::Base
     self.person.diaspora_handle
   end
 
+  def diaspora_handle= nh
+    self.person = Person.find_or_fetch_by_identifier(person_id)
+  end
 
   private
 
