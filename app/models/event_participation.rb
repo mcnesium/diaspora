@@ -30,6 +30,11 @@ class EventParticipation < ActiveRecord::Base
 
   validate :additional_flags
 
+  def diaspora_handle
+    self.person.diaspora_handle
+  end
+
+
   private
 
     # check for any of invited, attending or privileged properties
