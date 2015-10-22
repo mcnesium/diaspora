@@ -25,6 +25,6 @@ class Event < ActiveRecord::Base
     # person = Person.find_by(participation.person_id)
     # binding.pry
     # return person
-    event_participations.where(role: "owner").first.person
+    self.event_participations.first.person_id
   end
 end
