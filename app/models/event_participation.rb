@@ -4,7 +4,7 @@ class EventParticipation < ActiveRecord::Base
   # xml_attr :diaspora_handle
   # xml_attr :person_guid
   # xml_attr :event_guid
-  xml_attr :invited_by, :as => :person_guid
+  # xml_attr :invited_by, :as => :person
   xml_attr :attending
   xml_attr :role
 
