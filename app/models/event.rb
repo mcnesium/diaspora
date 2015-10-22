@@ -17,10 +17,10 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
   def diaspora_handle
+    binding.pry
     self.owner.diaspora_handle
   end
   def owner
-    binding.pry
     # participation = EventParticipation.find_by(event: self);
     # person = Person.find_by(participation.person_id)
     # binding.pry
