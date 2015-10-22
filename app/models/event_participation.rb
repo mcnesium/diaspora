@@ -31,11 +31,10 @@ class EventParticipation < ActiveRecord::Base
   validate :additional_flags
 
   def diaspora_handle
-    binding.pry
     self.person.diaspora_handle
   end
 
-  def diaspora_handle= nh
+  def diaspora_handle= person_id
     self.person = Person.find_or_fetch_by_identifier(person_id)
   end
 
