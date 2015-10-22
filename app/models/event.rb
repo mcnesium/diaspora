@@ -21,6 +21,7 @@ class Event < ActiveRecord::Base
     self.owner.diaspora_handle
   end
   def owner
-    Person.find_by(self.event_participations.first.person_id)
+    # return the person that participation has the owner role
+    Person.find_by( self.event_participations.detect{|role| role = EventParticipation.roles[:owner] }.person_id )
   end
 end

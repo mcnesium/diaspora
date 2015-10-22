@@ -1,10 +1,10 @@
 class EventParticipation < ActiveRecord::Base
   include Diaspora::Federated::Base
 
-  xml_attr :diaspora_handle
+  # xml_attr :diaspora_handle
   # xml_attr :person_guid
   # xml_attr :event_guid
-  # xml_attr :invited_by, :as => :person_guid
+  xml_attr :invited_by, :as => :person_guid
   xml_attr :attending
   xml_attr :role
 
@@ -30,13 +30,13 @@ class EventParticipation < ActiveRecord::Base
 
   validate :additional_flags
 
-  def diaspora_handle
-    self.person.diaspora_handle
-  end
+  # def diaspora_handle
+  #   self.person.diaspora_handle
+  # end
 
-  def diaspora_handle= person_id
-    self.person = Person.find_or_fetch_by_identifier(person_id)
-  end
+  # def diaspora_handle= person_id
+  #   self.person = Person.find_or_fetch_by_identifier(person_id)
+  # end
 
   private
 
