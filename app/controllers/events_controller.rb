@@ -48,6 +48,7 @@ class EventsController < ApplicationController
        role: EventParticipation.roles[:owner]
     )
     # return created event
+    # binding.pry
     Postzord::Dispatcher.defer_build_and_post(current_user, event)
     # Postzord::Dispatcher.defer_build_and_post(current_user, participation)
     render :json => event.to_json( :include => :event_participations ),
