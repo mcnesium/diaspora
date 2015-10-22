@@ -1,11 +1,12 @@
 class EventParticipation < ActiveRecord::Base
   include Diaspora::Federated::Base
 
-  xml_attr :person_guid
-  xml_attr :event_guid
-  xml_attr :invited_by, :as => :person_guid
-  xml_attr :attending
-  xml_attr :role
+  xml_attr :diaspora_handle
+  # xml_attr :person_guid
+  # xml_attr :event_guid
+  # xml_attr :invited_by, :as => :person_guid
+  # xml_attr :attending
+  # xml_attr :role
 
   belongs_to :event
   validates :event, presence: true
