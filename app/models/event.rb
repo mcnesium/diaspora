@@ -17,13 +17,14 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
   def diaspora_handle
-    self.owner.diaspora_handle
+    self.author = Person.find_or_fetch_by_identifier(nh)
+    # self.owner.diaspora_handle
   end
-  def owner
-    # binding.pry
-    participation = EventParticipation.find_by(event: self);
-    person = Person.find_by(participation.person_id)
-    return person
-    # event_participations.where(role: "owner").first.person
-  end
+  # def owner
+  #   # binding.pry
+  #   participation = EventParticipation.find_by(event: self);
+  #   person = Person.find_by(participation.person_id)
+  #   return person
+  #   # event_participations.where(role: "owner").first.person
+  # end
 end

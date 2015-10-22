@@ -1,8 +1,9 @@
 class EventParticipation < ActiveRecord::Base
   include Diaspora::Federated::Base
 
-  xml_attr :person, :as => Person
-  xml_attr :invited_by, :as => Person
+  xml_attr :person_id
+  xml_attr :event_id
+  xml_attr :invited_by
   xml_attr :attending
   xml_attr :role
 
