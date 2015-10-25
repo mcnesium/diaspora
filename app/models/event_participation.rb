@@ -1,6 +1,6 @@
 class EventParticipation < ActiveRecord::Base
   include Diaspora::Federated::Base
-  include Diaspora::Relayable
+  # include Diaspora::Relayable
 
   xml_attr :diaspora_handle
   xml_attr :invited_by
@@ -37,12 +37,15 @@ class EventParticipation < ActiveRecord::Base
     self.person = Person.find_or_fetch_by_identifier(person_id)
   end
 
-  def parent
-    self.event
-  end
+  # def parent
+  #   self.event
+  # end
 
-  def parent= parent
-    self.event = parent
+  # def parent= parent
+  #   self.event = parent
+  # end
+
+  def receive(user, person)
   end
 
   private
