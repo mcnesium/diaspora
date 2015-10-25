@@ -29,9 +29,7 @@ class Event < ActiveRecord::Base
     for participation in self.event_participations
       participation.event=self
     end
-    # self.event_participations[0].event=self
     self.save
-    byebug
   end
 
 end
