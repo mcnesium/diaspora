@@ -1,6 +1,8 @@
 class Event < ActiveRecord::Base
   include Diaspora::Federated::Base
   include Diaspora::Guid
+  include Diaspora::Relayable
+
 
   xml_attr :title
   xml_attr :start
