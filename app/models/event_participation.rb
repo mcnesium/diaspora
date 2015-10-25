@@ -46,6 +46,7 @@ class EventParticipation < ActiveRecord::Base
   # end
 
   def receive(user, person)
+    self.save
   end
 
   private

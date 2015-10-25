@@ -74,7 +74,9 @@ class EventsController < ApplicationController
     event.title = params[:title] || event.title
     event.start = params[:start] || event.start
     event.save
-    
+
+    Postzord::Dispatcher.defer_build_and_post(current_user, event)
+
     # return updated event
     render :json => event, content_type: "application/json"
 
