@@ -37,6 +37,14 @@ class EventParticipation < ActiveRecord::Base
     self.person = Person.find_or_fetch_by_identifier(person_id)
   end
 
+  def parent
+    self.event
+  end
+
+  def parent= parent
+    self.event = parent
+  end
+
   private
 
     # check for any of invited, attending or privileged properties
