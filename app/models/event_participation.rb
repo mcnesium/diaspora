@@ -1,5 +1,6 @@
 class EventParticipation < ActiveRecord::Base
   include Diaspora::Federated::Base
+  include Diaspora::Relayable
 
   xml_attr :diaspora_handle
   xml_attr :invited_by
