@@ -3,6 +3,7 @@ class EventParticipation < ActiveRecord::Base
   # include Diaspora::Relayable
 
   xml_name :event_participation
+  xml_attr :event_guid
   xml_attr :diaspora_handle
   xml_attr :invited_by
   xml_attr :attending
@@ -47,11 +48,20 @@ class EventParticipation < ActiveRecord::Base
   # end
 
   def receive(user, person)
+    byebug
     self.save
   end
 
   def subscribers(user)
     self.event.subscribers(user)
+  end
+
+  def event_guid
+    self.event.guid
+  end
+
+  def event_guid= (guid)
+    self.event = Event.find_by_guid(guid)
   end
 
   private
