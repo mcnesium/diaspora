@@ -2,6 +2,7 @@ class EventParticipation < ActiveRecord::Base
   include Diaspora::Federated::Base
   # include Diaspora::Relayable
 
+  xml_name :event_participation
   xml_attr :diaspora_handle
   xml_attr :invited_by
   xml_attr :attending
