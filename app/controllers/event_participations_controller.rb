@@ -62,8 +62,8 @@ class EventParticipationsController < ApplicationController
 
     end
 
-    render :json => participation, content_type: "application/json"
     Postzord::Dispatcher.defer_build_and_post(current_user, participation)
+    render :json => participation, content_type: "application/json"
 
   end
 
