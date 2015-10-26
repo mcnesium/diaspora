@@ -29,7 +29,6 @@ class Event < ActiveRecord::Base
 
     ev = Event.find_by_guid(self.guid)
     if ev
-      byebug
       ev.title = self.title
       ev.start = self.start
       ev.save
