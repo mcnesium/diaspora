@@ -50,7 +50,7 @@ class EventParticipation < ActiveRecord::Base
   end
 
   def subscribers(user)
-    byebug
+    self.event.subscribers(user)
   end
 
   private
