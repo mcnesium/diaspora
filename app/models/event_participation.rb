@@ -29,7 +29,7 @@ class EventParticipation < ActiveRecord::Base
     self[:role] >= EventParticipation.roles[:promoter]
   end
 
-  validate :additional_flags
+  # validate :additional_flags
 
   def diaspora_handle
     self.person.diaspora_handle
