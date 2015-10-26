@@ -26,10 +26,23 @@ class Event < ActiveRecord::Base
   end
 
   def receive(user, person)
+
+    ev = Event.find_by_guid(self.guid)
+    if ev
+      byebug
+      ev.title = self.title
+      ev.start = self.start
+      ev.save
+
+      return ev
+    end
+
     for participation in self.event_participations
       participation.event=self
     end
+    
     self.save
+
   end
 
 end
