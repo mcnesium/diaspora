@@ -23,6 +23,7 @@ module Diaspora
 
       module InstanceMethods
         def to_diaspora_xml
+          byebug
           xml = to_xml
           ::Logging::Logger["XMLLogger"].debug "to_xml: #{xml}"
           <<-XML
