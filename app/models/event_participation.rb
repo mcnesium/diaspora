@@ -49,6 +49,10 @@ class EventParticipation < ActiveRecord::Base
     self.save
   end
 
+  def subscribers(user)
+    byebug
+  end
+
   private
 
     # check for any of invited, attending or privileged properties
