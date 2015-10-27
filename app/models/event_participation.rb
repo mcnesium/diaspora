@@ -4,7 +4,7 @@ class EventParticipation < ActiveRecord::Base
 
   xml_name :event_participation
   xml_attr :event_guid
-  xml_attr :diaspora_handle
+  xml_attr :person_guid
   xml_attr :invitor_guid
   xml_attr :attending
   xml_attr :role
@@ -74,6 +74,14 @@ class EventParticipation < ActiveRecord::Base
 
   def event_guid= (guid)
     self.event = Event.find_by_guid(guid)
+  end
+
+  def person_guid
+    self.person.guid
+  end
+
+  def person_guid= (guid)
+    self.person = Person.find_by_guid(guid)
   end
 
   def invitor_guid
