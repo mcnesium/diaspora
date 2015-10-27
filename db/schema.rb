@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151010162807) do
+ActiveRecord::Schema.define(version: 20151027133139) do
 
   create_table "account_deletions", force: :cascade do |t|
     t.string   "diaspora_handle", limit: 255
@@ -138,23 +138,21 @@ ActiveRecord::Schema.define(version: 20151010162807) do
   add_index "conversations", ["author_id"], name: "conversations_author_id_fk", using: :btree
 
   create_table "event_participations", force: :cascade do |t|
-    t.string   "person_id",  limit: 255
-    t.string   "event_id",   limit: 255
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.string   "invited_by", limit: 255
-    t.boolean  "attending",              default: false
+    t.integer  "person_id",  limit: 4,               null: false
+    t.integer  "event_id",   limit: 4,               null: false
+    t.string   "invitor_id", limit: 255
+    t.boolean  "attending"
     t.integer  "role",       limit: 4,   default: 0
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
-
-  add_index "event_participations", ["event_id", "person_id"], name: "index_event_participations_on_event_id_and_person_id", unique: true, length: {"event_id"=>32, "person_id"=>32}, using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "title",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
     t.datetime "start"
     t.string   "guid",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "invitation_codes", force: :cascade do |t|

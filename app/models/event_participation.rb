@@ -5,7 +5,7 @@ class EventParticipation < ActiveRecord::Base
   xml_name :event_participation
   xml_attr :event_guid
   xml_attr :diaspora_handle
-  xml_attr :invited_by
+  xml_attr :invitor_guid
   xml_attr :attending
   xml_attr :role
 
@@ -14,6 +14,8 @@ class EventParticipation < ActiveRecord::Base
 
   belongs_to :person
   validates :person, presence: true
+
+  belongs_to :invitor, :class_name => 'Person'
 
   validates_uniqueness_of :event, scope: [:person]
 
@@ -48,11 +50,11 @@ class EventParticipation < ActiveRecord::Base
   # end
 
   def receive(user, person)
-    byebug
+
     ep = EventParticipation.find_by(event:event,person:person)
     if ep
       ep.attending = self.attending
-      ep.invited_by = self.invited_by
+      ep.invitor = self.invitor
       ep.role = self.role
       ep.save
       
@@ -74,12 +76,22 @@ class EventParticipation < ActiveRecord::Base
     self.event = Event.find_by_guid(guid)
   end
 
+  def invitor_guid
+    if self.invitor
+      self.invitor.guid
+    end
+  end
+
+  def invitor_guid= (guid)
+    self.invitor = Person.find_by_guid(guid)
+  end
+
   private
 
     # check for any of invited, attending or privileged properties
     def additional_flags
-      unless self.invited_by? || self.attending? || self.privileged?
-        raise "Must include invited_by, attending, or role >= promoter"
+      unless self.invitor? || self.attending? || self.privileged?
+        raise "Must include invitor, attending, or role >= promoter"
       end
     end
 
