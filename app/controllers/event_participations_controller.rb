@@ -43,7 +43,7 @@ class EventParticipationsController < ApplicationController
 
     # new participation
     else
-
+      byebug
       # attend to event, if this is me
       if person == current_user.person
         participation = EventParticipation.create(
@@ -56,7 +56,7 @@ class EventParticipationsController < ApplicationController
         participation = EventParticipation.create(
           person: person,
           event: event,
-          invited_by: current_user.id,
+          invited_by: current_user.person,
         )
       end
 
