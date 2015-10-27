@@ -17,6 +17,7 @@ class Postzord::Receiver
   private
 
   def author_does_not_match_xml_author?
+    byebug
     return false unless @author.diaspora_handle != xml_author
     logger.error "event=receive status=abort reason='author in xml does not match retrieved person' " \
                  "type=#{@object.class} sender=#{@author.diaspora_handle}"

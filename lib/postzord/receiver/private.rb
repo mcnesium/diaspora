@@ -53,7 +53,6 @@ class Postzord::Receiver::Private < Postzord::Receiver
   end
 
   def xml_author
-    byebug
     if @object.respond_to?(:relayable?)
       #if A and B are friends, and A sends B a comment from C, we delegate the validation to the owner of the post being commented on
       xml_author = @user.owns?(@object.parent) ? @object.diaspora_handle : @object.parent_author.diaspora_handle
