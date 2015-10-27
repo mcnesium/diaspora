@@ -50,7 +50,7 @@ class EventParticipation < ActiveRecord::Base
   # end
 
   def receive(user, person)
-
+    byebug
     ep = EventParticipation.find_by(event:event,person:person)
     if ep
       ep.attending = self.attending
