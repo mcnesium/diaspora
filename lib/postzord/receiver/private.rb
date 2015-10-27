@@ -15,6 +15,8 @@ class Postzord::Receiver::Private < Postzord::Receiver
   end
 
   def receive!
+        byebug
+
     if @author && salmon.verified_for_key?(@author.public_key)
       parse_and_receive(salmon.parsed_data)
     else
