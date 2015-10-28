@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   end
   def owner
     # return the person that participation has the owner role
-    Person.find_by( id: self.event_participations.detect{|role| role = EventParticipation.roles[:owner] }.person_id )
+    Person.find_by( id: self.event_participations.detect{|role| role = EventParticipation.roles[:owner] }.participant_id )
   end
 
   def receive(user, person)

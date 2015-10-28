@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027133139) do
+ActiveRecord::Schema.define(version: 20151028182532) do
 
   create_table "account_deletions", force: :cascade do |t|
     t.string   "diaspora_handle", limit: 255
@@ -138,13 +138,13 @@ ActiveRecord::Schema.define(version: 20151027133139) do
   add_index "conversations", ["author_id"], name: "conversations_author_id_fk", using: :btree
 
   create_table "event_participations", force: :cascade do |t|
-    t.integer  "person_id",  limit: 4,               null: false
-    t.integer  "event_id",   limit: 4,               null: false
-    t.string   "invitor_id", limit: 255
+    t.integer  "participant_id", limit: 4,               null: false
+    t.integer  "event_id",       limit: 4,               null: false
+    t.string   "invitor_id",     limit: 255
     t.boolean  "attending"
-    t.integer  "role",       limit: 4,   default: 0
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.integer  "role",           limit: 4,   default: 0
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "events", force: :cascade do |t|

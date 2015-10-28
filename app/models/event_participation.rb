@@ -4,7 +4,7 @@ class EventParticipation < ActiveRecord::Base
 
   xml_name :event_participation
   xml_attr :event_guid
-  xml_attr :person_guid
+  xml_attr :participant_guid
   xml_attr :invitor_guid
   xml_attr :attending
   xml_attr :role
@@ -12,12 +12,12 @@ class EventParticipation < ActiveRecord::Base
   belongs_to :event
   validates :event, presence: true
 
-  belongs_to :person
-  validates :person, presence: true
+  belongs_to :participant, :class_name => 'Person'
+  validates :participant, presence: true
 
   belongs_to :invitor, :class_name => 'Person'
 
-  validates_uniqueness_of :event, scope: [:person]
+  validates_uniqueness_of :event, scope: [:participant]
 
   # roles a person can have in relation to an event
   enum role: {
@@ -75,12 +75,12 @@ class EventParticipation < ActiveRecord::Base
     self.event = Event.find_by_guid(guid)
   end
 
-  def person_guid
-    self.person.guid
+  def participant_guid
+    self.participant.guid
   end
 
-  def person_guid= (guid)
-    self.person = Person.find_by_guid(guid)
+  def participant_guid= (guid)
+    self.participant = Person.find_by_guid(guid)
   end
 
   def invitor_guid

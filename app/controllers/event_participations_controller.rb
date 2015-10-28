@@ -11,21 +11,21 @@ class EventParticipationsController < ApplicationController
   def create
     event = Event.find(params[:event])
 
-    # check if this is about me or another person
-    if params[:person]
-        person = Person.find(params[:person])
+    # check if this is about me or another participant
+    if params[:particpant]
+        participant = Person.find(params[:participant])
     else
-        person = current_user.person
+        participant = current_user.person
     end
 
     # find an already existing participation
-    participation = EventParticipation.find_by(event:event,person:person)
+    participation = EventParticipation.find_by(event:event,participant:participant)
     
     # existing participation
     if participation
 
       # update own attendance
-      if params[:attending] && person == current_user.person
+      if params[:attending] && participant == current_user.person
         participation.attending = params[:attending].to_b
         participation.save
       end
@@ -34,7 +34,7 @@ class EventParticipationsController < ApplicationController
       if params[:role]
         # check if current user participation is privileged
         if EventParticipation
-            .find_by( event: event, person: current_user.person )
+            .find_by( event: event, participant: current_user.person )
             .privileged?
           participation.role = params[:role]
           participation.save
@@ -45,16 +45,16 @@ class EventParticipationsController < ApplicationController
     else
 
       # attend to event, if this is me
-      if person == current_user.person
+      if participant == current_user.person
         participation = EventParticipation.create(
-          person: person,
+          participant: participant,
           event: event,
           attending: 1
         )
       # otherwise invite that person
       else
         participation = EventParticipation.create(
-          person: person,
+          participant: participant,
           event: event,
           invitor: current_user.person,
         )

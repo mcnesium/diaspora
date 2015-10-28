@@ -43,7 +43,7 @@ class EventsController < ApplicationController
     )
     # create participation, set the current user to the event's owner
     participation = EventParticipation.create(
-       person: current_user.person,
+       participant: current_user.person,
        event: event,
        role: EventParticipation.roles[:owner]
     )
@@ -60,7 +60,7 @@ class EventsController < ApplicationController
     event = Event.find(params[:id])
 
     # get event-related event participation
-    ep = EventParticipation.find_by(event: event, person: current_user.person)
+    ep = EventParticipation.find_by(event: event, participant: current_user.person)
 
     # return false and exit if current user is not related or not privileged
     if ep == nil || !ep.privileged?
