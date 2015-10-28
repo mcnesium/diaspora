@@ -81,6 +81,7 @@ class EventParticipation < ActiveRecord::Base
   end
 
   def person_guid= (guid)
+    byebug
     self.person = Person.find_by_guid(guid)
   end
 
