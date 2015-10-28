@@ -50,7 +50,6 @@ class EventParticipationsController < ApplicationController
           participant: participant,
           event: event,
           attending: 1,
-          # role: EventParticipation.roles[:guest],
         )
       # otherwise invite that person
       else
@@ -58,7 +57,6 @@ class EventParticipationsController < ApplicationController
           participant: participant,
           event: event,
           invitor: current_user.person,
-          # role: EventParticipation.roles[:guest],
         )
       end
 
