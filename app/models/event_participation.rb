@@ -34,12 +34,12 @@ class EventParticipation < ActiveRecord::Base
   # validate :additional_flags
 
   def diaspora_handle
-    self.person.diaspora_handle
+    self.invitor.diaspora_handle
   end
 
-  def diaspora_handle= person_id
-    self.person = Person.find_or_fetch_by_identifier(person_id)
-  end
+  # def diaspora_handle= person_id
+  #   self.invitor = Person.find_or_fetch_by_identifier(person_id)
+  # end
 
   # def parent
   #   self.event
