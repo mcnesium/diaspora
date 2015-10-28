@@ -12,7 +12,7 @@ class EventParticipationsController < ApplicationController
     event = Event.find(params[:event])
 
     # check if this is about me or another participant
-    if params[:particpant]
+    if params[:participant]
         participant = Person.find(params[:participant])
     else
         participant = current_user.person
