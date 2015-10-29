@@ -33,6 +33,7 @@ class EventParticipation < ActiveRecord::Base
   # validate :additional_flags
 
   def diaspora_handle
+    byebug
     self.invitor.diaspora_handle
   end
 
