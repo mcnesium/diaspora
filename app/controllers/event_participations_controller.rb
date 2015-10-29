@@ -25,32 +25,30 @@ class EventParticipationsController < ApplicationController
     # existing participation
     if participation
 
-      # update own attendance
+      # update own attendance if this is me
       if params[:attending] && participant == current_user.person
         participation.attending = params[:attending].to_b
-        participation.save
       end
-
-      # update role
-      if params[:role] && is_privileged(event,current_user.person)
+      # update role if provided and user is allowed to
+      if params[:role] && EventParticipation.find_by( event: event, participant: current_user.person ).privileged?
         participation.role = params[:role]
-        participation.save
       end
+      # update the participation
+      participation.save
 
     # new participation
     else
+
       participation = {
         "participant" => participant,
         "event" => event
       }
-      # attend to event, if this is me
+      # attend to event if this is me
       if participant == current_user.person
         participation["attending"] = 1
-
-      # or set the participation role if provided
-      elsif params[:role] && is_privileged(event,current_user.person)
+      # or set the participation role if provided and user is allowed to
+      elsif params[:role] && EventParticipation.find_by( event: event, participant: current_user.person ).privileged?
         participation["role"] = params[:role]
-
       # otherwise invite that person
       else
         participation["invitor"] = current_user.person
@@ -59,25 +57,9 @@ class EventParticipationsController < ApplicationController
       EventParticipation.create(participation)
 
     end
+
     Postzord::Dispatcher.defer_build_and_post(current_user, participation)
     render :json => participation, content_type: "application/json"
-
-  end
-
-  def is_privileged(event,person)
-    # check if current user participation is privileged
-    participation = EventParticipation.find_by( event: event, participant: person )
-    # unless participation && participation.privileged?
-    #   render :json => { "error": "You are not allowed to change that role" },
-    #                     status: 403,
-    #                     content_type: "application/json"
-    #   return false
-    # end
-    if participation && participation.privileged?
-      return true
-    else
-      return false
-    end
 
   end
 
