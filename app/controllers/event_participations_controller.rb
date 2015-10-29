@@ -30,7 +30,7 @@ class EventParticipationsController < ApplicationController
         participation.attending = params[:attending].to_b
       end
       # update role if provided and user is allowed to
-      if params[:role] && EventParticipation.find_by( event: event, participant: current_user.person ).privileged?
+      if params[:role] && current_user_may_edit(event)
         participation.role = params[:role]
       end
       # update the participation
@@ -47,7 +47,7 @@ class EventParticipationsController < ApplicationController
       if participant == current_user.person
         participation["attending"] = 1
       # or set the participation role if provided and user is allowed to
-      elsif params[:role] && EventParticipation.find_by( event: event, participant: current_user.person ).privileged?
+    elsif params[:role] && current_user_may_edit(event)
         participation["role"] = params[:role]
       # otherwise invite that person
       else
@@ -61,6 +61,15 @@ class EventParticipationsController < ApplicationController
     Postzord::Dispatcher.defer_build_and_post(current_user, participation)
     render :json => participation, content_type: "application/json"
 
+  end
+
+  def current_user_may_edit(event)
+    participation = EventParticipation.find_by( event: event, participant: current_user.person )
+    if participation && participation.privileged?
+      return true
+    else
+      return false
+    end
   end
 
 end
