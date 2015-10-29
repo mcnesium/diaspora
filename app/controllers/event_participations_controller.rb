@@ -20,7 +20,7 @@ class EventParticipationsController < ApplicationController
 
     # find an already existing participation
     participation = EventParticipation.find_by(event:event,participant:participant)
-    
+
     # existing participation
     if participation
 
@@ -33,11 +33,15 @@ class EventParticipationsController < ApplicationController
       # update role
       if params[:role]
         # check if current user participation is privileged
-        if EventParticipation
-            .find_by( event: event, participant: current_user.person )
-            .privileged?
+        current = EventParticipation.find_by( event: event, participant: current_user.person )
+        if current && current.privileged?
           participation.role = params[:role]
           participation.save
+        else
+          render :json => { "error": "You are not allowed to change that role" },
+                            status: 403,
+                            content_type: "application/json"
+          return
         end
       end
 
@@ -51,6 +55,7 @@ class EventParticipationsController < ApplicationController
           event: event,
           attending: 1,
         )
+
       # otherwise invite that person
       else
         participation = EventParticipation.create(
