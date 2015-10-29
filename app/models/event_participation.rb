@@ -33,13 +33,10 @@ class EventParticipation < ActiveRecord::Base
   # validate :additional_flags
 
   def diaspora_handle
-    byebug
-    self.invitor.diaspora_handle
+    if self.invitor
+      self.invitor.diaspora_handle
+    end
   end
-
-  # def diaspora_handle= person_id
-  #   self.invitor = Person.find_or_fetch_by_identifier(person_id)
-  # end
 
   def receive(user, person)
     ep = EventParticipation.find_by(event:event,invitor:person)
