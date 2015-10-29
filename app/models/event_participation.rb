@@ -22,13 +22,13 @@ class EventParticipation < ActiveRecord::Base
   # roles a person can have in relation to an event
   enum role: {
       :guest => 0,
-      :promoter => 1,
+      :editor => 1,
       :owner => 2
   }
 
-  # a relation of a person to an event is privileged if at least promoter role
+  # a relation of a person to an event is privileged if at least editor role
   def privileged?
-    self[:role] >= EventParticipation.roles[:promoter]
+    self[:role] >= EventParticipation.roles[:editor]
   end
 
   # validate :additional_flags
@@ -56,7 +56,7 @@ class EventParticipation < ActiveRecord::Base
       ep.invitor = self.invitor
       ep.role = self.role
       ep.save
-      
+
       return ep
     end
 
