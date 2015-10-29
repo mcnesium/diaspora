@@ -67,10 +67,15 @@ class EventParticipationsController < ApplicationController
   def is_privileged(event,person)
     # check if current user participation is privileged
     participation = EventParticipation.find_by( event: event, participant: person )
-    unless participation && participation.privileged?
-      render :json => { "error": "You are not allowed to change that role" },
-                        status: 403,
-                        content_type: "application/json"
+    # unless participation && participation.privileged?
+    #   render :json => { "error": "You are not allowed to change that role" },
+    #                     status: 403,
+    #                     content_type: "application/json"
+    #   return false
+    # end
+    if participation && participation.privileged?
+      return true
+    else
       return false
     end
 
