@@ -31,43 +31,48 @@ class EventParticipationsController < ApplicationController
       end
 
       # update role
-      if params[:role]
-        # check if current user participation is privileged
-        current = EventParticipation.find_by( event: event, participant: current_user.person )
-        if current && current.privileged?
-          participation.role = params[:role]
-          participation.save
-        else
-          render :json => { "error": "You are not allowed to change that role" },
-                            status: 403,
-                            content_type: "application/json"
-          return
-        end
+      if params[:role] && current_user_is_privileged?
+        participation.role = params[:role]
+        participation.save
       end
 
     # new participation
     else
+      participation = {
+        "participant" => participant,
+        "event" => event
+      }
 
       # attend to event, if this is me
       if participant == current_user.person
-        participation = EventParticipation.create(
-          participant: participant,
-          event: event,
-          attending: 1,
-        )
+        participation["attending"] = 1
+
+      elsif params[:role] && current_user_is_privileged?
+        participation["role"] = params[:role]
 
       # otherwise invite that person
       else
-        participation = EventParticipation.create(
-          participant: participant,
-          event: event,
-          invitor: current_user.person,
-        )
+        participation["invitor"] = current_user.person
       end
+      EventParticipation.create(participation)
 
     end
     Postzord::Dispatcher.defer_build_and_post(current_user, participation)
     render :json => participation, content_type: "application/json"
+
+  end
+
+  def current_user_is_privileged?
+    # check if current user participation is privileged
+    current = EventParticipation.find_by( event: event, participant: current_user.person )
+    if current && current.privileged?
+      return true
+    else
+      render :json => { "error": "You are not allowed to change that role" },
+                        status: 403,
+                        content_type: "application/json"
+      return false
+    end
 
   end
 
