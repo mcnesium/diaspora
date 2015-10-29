@@ -28,11 +28,17 @@ class EventParticipationsController < ApplicationController
       if params[:attending] && participant == current_user.person
         participation.attending = params[:attending].to_b
       # update role if provided and user is allowed to
-      elsif params[:role] && current_user_may_edit(event)
-        participation.role = params[:role]
-      else
+      elsif params[:role]
+        if current_user_may_edit(event)
+          participation.role = params[:role]
+        else
         render :json => { "error": "You are not allowed to edit this event" },
               status: 403,
+              content_type: "application/json"
+        return
+      else
+        render :json => { "error": "Nothing to update" },
+              status: 400,
               content_type: "application/json"
         return
       end
