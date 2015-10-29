@@ -9,7 +9,12 @@ class EventParticipationsController < ApplicationController
   end
 
   def create
-    event = Event.find(params[:event])
+    if params[:event]
+      event = Event.find(params[:event])
+    else
+      render_error(400,"No event given")
+      return
+    end
 
     # check if this is about me or another participant
     if params[:participant]
@@ -32,15 +37,11 @@ class EventParticipationsController < ApplicationController
         if current_user_may_edit(event)
           participation.role = params[:role]
         else
-          render :json => { "error": "You are not allowed to edit this event" },
-                status: 403,
-                content_type: "application/json"
+          render_error(403,"You are not allowed to edit this event")
           return
       end
       else
-        render :json => { "error": "Nothing to update" },
-              status: 400,
-              content_type: "application/json"
+        render_error(400,"Nothing to update")
         return
       end
       # update the participation
@@ -80,6 +81,10 @@ class EventParticipationsController < ApplicationController
     else
       return false
     end
+  end
+
+  def render_error(status,string)
+    render :json => { "error": string }, status: status, content_type: "application/json"
   end
 
 end
