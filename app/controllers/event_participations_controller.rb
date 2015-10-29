@@ -9,6 +9,7 @@ class EventParticipationsController < ApplicationController
   end
 
   def create
+      byebug
     event = Event.find(params[:event])
 
     # check if this is about me or another participant
@@ -42,7 +43,6 @@ class EventParticipationsController < ApplicationController
         "participant" => participant,
         "event" => event
       }
-      byebug
       # attend to event, if this is me
       if participant == current_user.person
         participation["attending"] = 1
