@@ -71,7 +71,6 @@ class EventParticipationsController < ApplicationController
       render :json => { "error": "You are not allowed to change that role" },
                         status: 403,
                         content_type: "application/json"
-      return false
     end
 
   end
