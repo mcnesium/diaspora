@@ -7,6 +7,7 @@ class EventParticipation < ActiveRecord::Base
   xml_attr :invitor_guid
   xml_attr :attending
   xml_attr :role
+  xml_attr :diaspora_handle
 
   belongs_to :event
   validates :event, presence: true
@@ -33,13 +34,12 @@ class EventParticipation < ActiveRecord::Base
   # validate :additional_flags
 
   def diaspora_handle
-    byebug
-    self.invitor.diaspora_handle
+    self.diaspora_handle
   end
 
-  # def diaspora_handle= person_id
-  #   self.invitor = Person.find_or_fetch_by_identifier(person_id)
-  # end
+  def diaspora_handle= person_id
+    Person.find_or_fetch_by_identifier(person_id)
+  end
 
   def receive(user, person)
     ep = EventParticipation.find_by(event:event,invitor:person)
