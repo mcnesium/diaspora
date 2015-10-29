@@ -31,7 +31,7 @@ class EventParticipationsController < ApplicationController
       end
 
       # update role
-      if params[:role] && is_user_privileged(event,current_user.person)
+      if params[:role] && is_privileged(event,current_user.person)
         participation.role = params[:role]
         participation.save
       end
@@ -42,18 +42,20 @@ class EventParticipationsController < ApplicationController
         "participant" => participant,
         "event" => event
       }
-
+      byebug
       # attend to event, if this is me
       if participant == current_user.person
         participation["attending"] = 1
 
-      elsif params[:role] && is_user_privileged(event,current_user.person)
+      # or set the participation role if provided
+      elsif params[:role] && is_privileged(event,current_user.person)
         participation["role"] = params[:role]
 
       # otherwise invite that person
       else
         participation["invitor"] = current_user.person
       end
+      # create the participation
       EventParticipation.create(participation)
 
     end
@@ -62,15 +64,14 @@ class EventParticipationsController < ApplicationController
 
   end
 
-  def is_user_privileged(event,person)
+  def is_privileged(event,person)
     # check if current user participation is privileged
-    current = EventParticipation.find_by( event: event, participant: person )
-    if current && current.privileged?
-      return true
-    else
+    participation = EventParticipation.find_by( event: event, participant: person )
+    unless participation && participation.privileged?
       render :json => { "error": "You are not allowed to change that role" },
                         status: 403,
                         content_type: "application/json"
+      return false
     end
 
   end
