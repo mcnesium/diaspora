@@ -33,7 +33,7 @@ class EventParticipationsController < ApplicationController
       if params[:attending] && participant == current_user.person
         participation.attending = params[:attending].to_b
       # update role if provided and user is allowed to
-      elsif params[:role]
+    elsif params[:role] # TODO THIS ONLY FOR OWNER
         if current_user_may_edit(event)
           participation.role = params[:role]
         else
