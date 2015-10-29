@@ -31,7 +31,7 @@ class EventParticipationsController < ApplicationController
       end
 
       # update role
-      if params[:role] && current_user_is_privileged?
+      if params[:role] && is_user_privileged(event,current_user.person)
         participation.role = params[:role]
         participation.save
       end
@@ -47,7 +47,7 @@ class EventParticipationsController < ApplicationController
       if participant == current_user.person
         participation["attending"] = 1
 
-      elsif params[:role] && current_user_is_privileged?
+      elsif params[:role] && is_user_privileged(event,current_user.person)
         participation["role"] = params[:role]
 
       # otherwise invite that person
@@ -62,9 +62,9 @@ class EventParticipationsController < ApplicationController
 
   end
 
-  def current_user_is_privileged?
+  def is_user_privileged(event,person)
     # check if current user participation is privileged
-    current = EventParticipation.find_by( event: event, participant: current_user.person )
+    current = EventParticipation.find_by( event: event, participant: person )
     if current && current.privileged?
       return true
     else
