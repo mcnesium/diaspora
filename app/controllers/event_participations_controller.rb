@@ -33,8 +33,8 @@ class EventParticipationsController < ApplicationController
       if params[:attending] && participant == current_user.person
         participation.attending = params[:attending].to_b
       # update role if provided and user is allowed to
-    elsif params[:role] # TODO THIS ONLY FOR OWNER
-        if current_user_may_edit(event)
+    elsif params[:role]
+        if current_user_is_owner(event)
           participation.role = params[:role]
         else
           render_error(403,"You are not allowed to edit this event")
@@ -76,7 +76,16 @@ class EventParticipationsController < ApplicationController
 
   def current_user_may_edit(event)
     participation = EventParticipation.find_by( event: event, participant: current_user.person )
-    if participation && participation.privileged?
+    if participation && participation.may_edit?
+      return true
+    else
+      return false
+    end
+  end
+
+  def current_user_is_owner(event)
+    participation = EventParticipation.find_by( event: event, participant: current_user.person )
+    if participation && participation.is_owner?
       return true
     else
       return false

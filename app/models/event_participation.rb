@@ -25,9 +25,12 @@ class EventParticipation < ActiveRecord::Base
       :owner => 2
   }
 
-  # a relation of a person to an event is privileged if at least editor role
-  def privileged?
+  # a relation of a person to an event has extended permissions
+  def may_edit?
     self[:role] >= EventParticipation.roles[:editor]
+  end
+  def is_owner?
+    self[:role] >= EventParticipation.roles[:owner]
   end
 
   # validate :additional_flags
@@ -86,7 +89,7 @@ class EventParticipation < ActiveRecord::Base
 
     # check for any of invited, attending or privileged properties
     def additional_flags
-      unless self.invitor? || self.attending? || self.privileged?
+      unless self.invitor? || self.attending? || self.may_edit?
         raise "Must include invitor, attending, or role >= promoter"
       end
     end

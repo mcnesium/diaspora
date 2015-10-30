@@ -63,7 +63,7 @@ class EventsController < ApplicationController
     ep = EventParticipation.find_by(event: event, participant: current_user.person)
 
     # return false and exit if current user is not related or not privileged
-    if ep == nil || !ep.privileged?
+    if ep == nil || !ep.may_edit?
       render :json => { "error": "You are not allowed to update this event" },
             status: 403,
             content_type: "application/json"
