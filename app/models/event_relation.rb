@@ -38,6 +38,8 @@ class EventRelation < ActiveRecord::Base
   def diaspora_handle
     if self.invitor
       self.invitor.diaspora_handle
+    else
+      self.targetperson.diaspora_handle
     end
   end
 
