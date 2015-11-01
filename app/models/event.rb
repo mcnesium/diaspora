@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   end
   def owner
     # return the person that relation has the owner role
-    Person.find_by( id: self.event_relations.detect{|role| role = EventRelation.roles[:owner] }.target_id )
+    Person.find_by( id: self.event_relations.detect{|role| role = EventRelation.roles[:owner] }.targetperson_id )
   end
 
   def receive(user, person)
