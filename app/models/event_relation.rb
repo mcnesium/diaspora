@@ -46,7 +46,7 @@ class EventRelation < ActiveRecord::Base
   def receive(user, person)
 
     # check if this is an existing relation
-    if relation = EventRelation.find_by(event:event,invitor:person)
+    if relation = EventRelation.find_by( event: self.event, targetperson: self.targetperson)
       relation.attending = self.attending
       relation.invitor = self.invitor
       relation.role = self.role
