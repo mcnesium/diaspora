@@ -43,7 +43,7 @@ class EventsController < ApplicationController
     )
     # create relation, set the current user to the event's owner
     relation = EventRelation.create(
-       target: current_user.person,
+       targetperson: current_user.person,
        event: event,
        role: EventRelation.roles[:owner]
     )
@@ -60,7 +60,7 @@ class EventsController < ApplicationController
     event = Event.find(params[:id])
 
     # get event-related event relation
-    ep = EventRelation.find_by(event: event, target: current_user.person)
+    ep = EventRelation.find_by(event: event, targetperson: current_user.person)
 
     # return false and exit if current user is not related or not privileged
     if ep == nil || !ep.may_edit?

@@ -17,23 +17,23 @@ class EventRelationsController < ApplicationController
     end
 
     # check if this is about me or another target person
-    if params[:target]
-        target = Person.find(params[:target])
+    if params[:targetperson]
+        targetperson = Person.find(params[:targetperson])
     else
-        target = current_user.person
+        targetperson = current_user.person
     end
 
     # find an already existing relation
-    relation = EventRelation.find_by(event:event,target:target)
+    relation = EventRelation.find_by(event:event,targetperson:targetperson)
 
     # existing relation
     if relation
 
       # update own attendance if this is me
-      if params[:attending] && target == current_user.person
+      if params[:attending] && targetperson == current_user.person
         relation.attending = params[:attending].to_b
       # update role if provided and user is allowed to
-    elsif params[:role]
+      elsif params[:role]
         if current_user_is_owner(event)
           relation.role = params[:role]
         else
@@ -51,11 +51,11 @@ class EventRelationsController < ApplicationController
     else
 
       relation = {
-        "target" => target,
+        "targetperson" => targetperson,
         "event" => event
       }
       # attend to event if this is me
-      if target == current_user.person
+      if targetperson == current_user.person
         relation["attending"] = 1
       # or set the relation role if provided and user is allowed to
       elsif params[:role] && current_user_may_edit(event)
@@ -75,7 +75,7 @@ class EventRelationsController < ApplicationController
   end
 
   def current_user_may_edit(event)
-    relation = EventRelation.find_by( event: event, target: current_user.person )
+    relation = EventRelation.find_by( event: event, targetperson: current_user.person )
     if relation && relation.may_edit?
       return true
     else
@@ -84,7 +84,7 @@ class EventRelationsController < ApplicationController
   end
 
   def current_user_is_owner(event)
-    relation = EventRelation.find_by( event: event, target: current_user.person )
+    relation = EventRelation.find_by( event: event, targetperson: current_user.person )
     if relation && relation.is_owner?
       return true
     else

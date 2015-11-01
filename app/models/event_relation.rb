@@ -3,7 +3,7 @@ class EventRelation < ActiveRecord::Base
 
   xml_name :event_relation
   xml_attr :event_guid
-  xml_attr :target_guid
+  xml_attr :targetperson_guid
   xml_attr :invitor_guid
   xml_attr :attending
   xml_attr :role
@@ -11,12 +11,12 @@ class EventRelation < ActiveRecord::Base
   belongs_to :event
   validates :event, presence: true
 
-  belongs_to :target, :class_name => 'Person'
-  validates :target, presence: true
+  belongs_to :targetperson, :class_name => 'Person'
+  validates :targetperson, presence: true
 
   belongs_to :invitor, :class_name => 'Person'
 
-  validates_uniqueness_of :event, scope: [:target]
+  validates_uniqueness_of :event, scope: [:targetperson]
 
   # roles a person can have in relation to an event
   enum role: {
@@ -67,12 +67,12 @@ class EventRelation < ActiveRecord::Base
     self.event = Event.find_by_guid(guid)
   end
 
-  def target_guid
-    self.target.guid
+  def targetperson_guid
+    self.targetperson.guid
   end
 
-  def target_guid= (guid)
-    self.target = Person.find_by_guid(guid)
+  def targetperson_guid= (guid)
+    self.targetperson = Person.find_by_guid(guid)
   end
 
   def invitor_guid
