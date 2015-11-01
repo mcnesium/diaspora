@@ -8,8 +8,8 @@ class CreateEvents < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    create_table :event_participations do |t|
-      t.belongs_to :person, :null => false
+    create_table :event_relations do |t|
+      t.belongs_to :target, :null => false
       t.belongs_to :event, :null => false
       t.belongs_to :invitor
       t.boolean :attending
@@ -17,14 +17,14 @@ class CreateEvents < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :event_participations, [:event_id, :person_id], unique: true,
-                :length => { :event_id => 32, :person_id => 32 }
+    add_index :event_relations, [:event_id, :target_id], unique: true,
+                :length => { :event_id => 32, :target_id => 32 }
   end
 
   def down
     drop_table :events
-    drop_table :event_participations
-    remove_index :event_participations, [:event_id, :person_id]
+    drop_table :event_relations
+    remove_index :event_relations, [:event_id, :target_id]
   end
 
 end

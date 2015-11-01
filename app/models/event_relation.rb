@@ -1,9 +1,9 @@
-class EventParticipation < ActiveRecord::Base
+class EventRelation < ActiveRecord::Base
   include Diaspora::Federated::Base
 
-  xml_name :event_participation
+  xml_name :event_relation
   xml_attr :event_guid
-  xml_attr :participant_guid
+  xml_attr :target_guid
   xml_attr :invitor_guid
   xml_attr :attending
   xml_attr :role
@@ -11,12 +11,12 @@ class EventParticipation < ActiveRecord::Base
   belongs_to :event
   validates :event, presence: true
 
-  belongs_to :participant, :class_name => 'Person'
-  validates :participant, presence: true
+  belongs_to :target, :class_name => 'Person'
+  validates :target, presence: true
 
   belongs_to :invitor, :class_name => 'Person'
 
-  validates_uniqueness_of :event, scope: [:participant]
+  validates_uniqueness_of :event, scope: [:target]
 
   # roles a person can have in relation to an event
   enum role: {
@@ -27,10 +27,10 @@ class EventParticipation < ActiveRecord::Base
 
   # a relation of a person to an event has extended permissions
   def may_edit?
-    self[:role] >= EventParticipation.roles[:editor]
+    self[:role] >= EventRelation.roles[:editor]
   end
   def is_owner?
-    self[:role] >= EventParticipation.roles[:owner]
+    self[:role] >= EventRelation.roles[:owner]
   end
 
   # validate :additional_flags
@@ -42,14 +42,14 @@ class EventParticipation < ActiveRecord::Base
   end
 
   def receive(user, person)
-    ep = EventParticipation.find_by(event:event,invitor:person)
-    if ep
-      ep.attending = self.attending
-      ep.invitor = self.invitor
-      ep.role = self.role
-      ep.save
+    relation = EventRelation.find_by(event:event,invitor:person)
+    if relation
+      relation.attending = self.attending
+      relation.invitor = self.invitor
+      relation.role = self.role
+      relation.save
 
-      return ep
+      return relation
     end
 
     self.save
@@ -67,12 +67,12 @@ class EventParticipation < ActiveRecord::Base
     self.event = Event.find_by_guid(guid)
   end
 
-  def participant_guid
-    self.participant.guid
+  def target_guid
+    self.target.guid
   end
 
-  def participant_guid= (guid)
-    self.participant = Person.find_by_guid(guid)
+  def target_guid= (guid)
+    self.target = Person.find_by_guid(guid)
   end
 
   def invitor_guid

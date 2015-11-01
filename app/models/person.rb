@@ -57,7 +57,7 @@ class Person < ActiveRecord::Base
   has_many :mentions, :dependent => :destroy
 
   has_many :event_invitations
-  has_many :event_participations
+  has_many :event_relations
 
   before_validation :clean_url
 

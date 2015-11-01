@@ -256,6 +256,6 @@ Diaspora::Application.routes.draw do
 
   # Events
   resources :events
-  resources :event_participations
+  resources :event_relations
 
 end

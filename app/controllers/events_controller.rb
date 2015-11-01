@@ -10,9 +10,9 @@ class EventsController < ApplicationController
   end
 
   def show
-    # return given event, include event-related participations
+    # return given event, include event relations
     render :json => Event.find(params[:id])
-      .to_json( :include => :event_participations ),
+      .to_json( :include => :event_relations ),
       content_type: "application/json"
   end
 
@@ -41,17 +41,17 @@ class EventsController < ApplicationController
         title: params[:title],
         start: params[:start],
     )
-    # create participation, set the current user to the event's owner
-    participation = EventParticipation.create(
-       participant: current_user.person,
+    # create relation, set the current user to the event's owner
+    relation = EventRelation.create(
+       target: current_user.person,
        event: event,
-       role: EventParticipation.roles[:owner]
+       role: EventRelation.roles[:owner]
     )
     # return created event
     # binding.pry
 
     Postzord::Dispatcher.defer_build_and_post(current_user, event)
-    render :json => event.to_json( :include => :event_participations ),
+    render :json => event.to_json( :include => :event_relations ),
             content_type: "application/json"
   end
 
@@ -59,8 +59,8 @@ class EventsController < ApplicationController
     # get given event, check if it actually exists
     event = Event.find(params[:id])
 
-    # get event-related event participation
-    ep = EventParticipation.find_by(event: event, participant: current_user.person)
+    # get event-related event relation
+    ep = EventRelation.find_by(event: event, target: current_user.person)
 
     # return false and exit if current user is not related or not privileged
     if ep == nil || !ep.may_edit?

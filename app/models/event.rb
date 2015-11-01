@@ -4,11 +4,11 @@ class Event < ActiveRecord::Base
 
   xml_attr :title
   xml_attr :start
-  xml_attr :event_participations, :as => [EventParticipation]
+  xml_attr :event_relations, :as => [EventRelation]
 
-  has_many :event_participations
+  has_many :event_relations
 
-  accepts_nested_attributes_for :event_participations
+  accepts_nested_attributes_for :event_relations
 
   validates :title, length: { minimum: 1, maximum: 255 }
   validates :start, presence: true
@@ -21,8 +21,8 @@ class Event < ActiveRecord::Base
     self.owner.diaspora_handle
   end
   def owner
-    # return the person that participation has the owner role
-    Person.find_by( id: self.event_participations.detect{|role| role = EventParticipation.roles[:owner] }.participant_id )
+    # return the person that relation has the owner role
+    Person.find_by( id: self.event_relations.detect{|role| role = EventRelation.roles[:owner] }.target_id )
   end
 
   def receive(user, person)
@@ -36,10 +36,10 @@ class Event < ActiveRecord::Base
       return ev
     end
 
-    for participation in self.event_participations
-      participation.event=self
+    for relation in self.event_relations
+      relation.event=self
     end
-    
+
     self.save
 
   end
