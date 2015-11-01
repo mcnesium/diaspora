@@ -80,15 +80,11 @@ class EventRelation < ActiveRecord::Base
     self.invitor = Person.find_by_guid(guid)
   end
 
-  delegate :diaspora_handle, to: :event
-  # def diaspora_handle
-  #   self.diaspora_handle
-  # end
-  # xml_attr :diaspora_handle
-  #
-  # def diaspora_handle=(nh)
-  #   self.author = Person.find_or_fetch_by_identifier(nh)
-  # end
+  # delegate :diaspora_handle, to: :event
+  xml_attr :diaspora_handle
+  def diaspora_handle
+    self.author.diaspora_handle
+  end
 
   private
 
