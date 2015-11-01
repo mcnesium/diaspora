@@ -7,7 +7,6 @@ class EventRelation < ActiveRecord::Base
   xml_attr :invitor_guid
   xml_attr :attending
   xml_attr :role
-  xml_attr :diaspora_handle
 
   belongs_to :event
   validates :event, presence: true
@@ -37,7 +36,14 @@ class EventRelation < ActiveRecord::Base
   # validate :additional_flags
 
   def diaspora_handle
+
     self.targetperson.diaspora_handle
+
+    # if self.invitor
+    #   self.invitor.diaspora_handle
+    # else
+    #   self.diaspora_handle
+    # end
   end
 
   def receive(user, person)
