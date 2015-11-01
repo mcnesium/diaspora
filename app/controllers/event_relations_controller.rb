@@ -1,4 +1,4 @@
-class EventRelationController < ApplicationController
+class EventRelationsController < ApplicationController
   before_action :authenticate_user!, :only => [:create]
   skip_before_filter :verify_authenticity_token
 
