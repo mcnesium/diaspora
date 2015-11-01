@@ -36,14 +36,7 @@ class EventRelation < ActiveRecord::Base
   # validate :additional_flags
 
   def diaspora_handle
-
     self.targetperson.diaspora_handle
-
-    # if self.invitor
-    #   self.invitor.diaspora_handle
-    # else
-    #   self.diaspora_handle
-    # end
   end
 
   def receive(user, person)

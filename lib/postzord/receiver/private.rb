@@ -29,7 +29,7 @@ class Postzord::Receiver::Private < Postzord::Receiver
 
   def parse_and_receive(xml)
     @object ||= Diaspora::Parser.from_xml(xml)
-
+byebug
     logger.info "user:#{@user.id} starting private receive from person:#{@author.guid}"
 
     validate_object
