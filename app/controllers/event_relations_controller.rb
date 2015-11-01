@@ -50,22 +50,22 @@ class EventRelationsController < ApplicationController
     # new relation
     else
 
-      relation = {
+      rel_prefs = {
         "targetperson" => targetperson,
         "event" => event
       }
       # attend to event if this is me
       if targetperson == current_user.person
-        relation["attending"] = 1
+        rel_prefs["attending"] = 1
       # or set the relation role if provided and user is allowed to
       elsif params[:role] && current_user_may_edit(event)
-        relation["role"] = params[:role]
+        rel_prefs["role"] = params[:role]
       # otherwise invite that person
       else
-        relation["invitor"] = current_user.person
+        rel_prefs["invitor"] = current_user.person
       end
       # create the relation
-      EventRelation.create(relation)
+      relation = EventRelation.create(rel_prefs)
 
     end
 
