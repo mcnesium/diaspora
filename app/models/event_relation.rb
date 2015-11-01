@@ -82,6 +82,7 @@ class EventRelation < ActiveRecord::Base
   end
 
   def diaspora_handle
+    byebug
     self.author.diaspora_handle
   end
 
