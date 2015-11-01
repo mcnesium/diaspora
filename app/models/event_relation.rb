@@ -44,7 +44,7 @@ class EventRelation < ActiveRecord::Base
   end
 
   def receive(user, person)
-    relation = EventRelation.find_by(event:event,invitor:person)
+    relation = EventRelation.find_by(event:event,targetperson:person)
     if relation
       relation.attending = self.attending
       relation.invitor = self.invitor
