@@ -11,12 +11,10 @@ class CreateEvents < ActiveRecord::Migration
     create_table :event_invitations do |t|
       t.belongs_to :invitee, :null => false
       t.belongs_to :event, :null => false
-      t.belongs_to :invitor, :null = false
+      t.belongs_to :invitor, :null => false
       t.timestamps null: false
     end
-    add_index :event_invitations, [:invitee_id, :event_id],
-                                  unique: true,
-                                  :length => { :invitee_id => 32,  :event_id => 32 }
+    add_index :event_invitations, [:invitee_id, :event_id], unique: true
 
     create_table :event_attendings do |t|
       t.belongs_to :attendant, :null => false
@@ -24,9 +22,7 @@ class CreateEvents < ActiveRecord::Migration
       t.boolean :attending
       t.timestamps null: false
     end
-    add_index :event_attendings, [:attendant_id, :event_id],
-                                  unique: true,
-                                  :length => { :attendant_id => 32,  :event_id => 32 }
+    add_index :event_attendings, [:attendant_id, :event_id], unique: true
 
     create_table :event_roles do |t|
       t.belongs_to :person, :null => false
@@ -34,9 +30,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :role, default: 0
       t.timestamps null: false
     end
-    add_index :event_roles, [:person_id, :event_id],
-                            unique: true,
-                            :length => { :person_id => 32,  :event_id => 32 }
+    add_index :event_roles, [:person_id, :event_id], unique: true
 
   end
 

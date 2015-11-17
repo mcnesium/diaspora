@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003142048) do
+ActiveRecord::Schema.define(version: 20151117141231) do
 
   create_table "account_deletions", force: :cascade do |t|
     t.string   "diaspora_handle", limit: 255
@@ -136,6 +136,44 @@ ActiveRecord::Schema.define(version: 20151003142048) do
   end
 
   add_index "conversations", ["author_id"], name: "conversations_author_id_fk", using: :btree
+
+  create_table "event_attendings", force: :cascade do |t|
+    t.integer  "attendant_id", limit: 4, null: false
+    t.integer  "event_id",     limit: 4, null: false
+    t.boolean  "attending"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "event_attendings", ["attendant_id", "event_id"], name: "index_event_attendings_on_attendant_id_and_event_id", unique: true, using: :btree
+
+  create_table "event_invitations", force: :cascade do |t|
+    t.integer  "invitee_id", limit: 4, null: false
+    t.integer  "event_id",   limit: 4, null: false
+    t.integer  "invitor_id", limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "event_invitations", ["invitee_id", "event_id"], name: "index_event_invitations_on_invitee_id_and_event_id", unique: true, using: :btree
+
+  create_table "event_roles", force: :cascade do |t|
+    t.integer  "person_id",  limit: 4,             null: false
+    t.integer  "event_id",   limit: 4,             null: false
+    t.integer  "role",       limit: 4, default: 0
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "event_roles", ["person_id", "event_id"], name: "index_event_roles_on_person_id_and_event_id", unique: true, using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.string   "title",      limit: 255
+    t.datetime "start"
+    t.string   "guid",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "invitation_codes", force: :cascade do |t|
     t.string   "token",      limit: 255
@@ -419,7 +457,7 @@ ActiveRecord::Schema.define(version: 20151003142048) do
     t.string   "location",         limit: 255
     t.string   "full_name",        limit: 70
     t.boolean  "nsfw",                           default: false
-    t.boolean  "public_details",               default: false
+    t.boolean  "public_details",                 default: false
   end
 
   add_index "profiles", ["full_name", "searchable"], name: "index_profiles_on_full_name_and_searchable", using: :btree
