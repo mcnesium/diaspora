@@ -250,4 +250,8 @@ Diaspora::Application.routes.draw do
 
   # Startpage
   root :to => 'home#show'
+
+  # Events
+  resources :events
+
 end
