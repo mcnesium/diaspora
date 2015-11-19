@@ -20,7 +20,14 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
 
-  attr_accessor :diaspora_handle
+  def diaspora_handle
+    @dh
+  end
+
+  def diaspora_handle= (handle)
+    @dh = handle
+  end
+
   # def diaspora_handle
   #   # binding.pry
   #   self.owner.diaspora_handle
