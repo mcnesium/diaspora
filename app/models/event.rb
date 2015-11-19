@@ -2,9 +2,13 @@ class Event < ActiveRecord::Base
   include Diaspora::Federated::Base
   include Diaspora::Guid
 
+  belongs_to :author, :class_name => 'Person'
+
+  validates :author, presence: true
   validates :title, length: { minimum: 1, maximum: 255 }
+
+  xml_attr :author
   xml_attr :title
-  xml_attr :diaspora_handle
 
   # xml_attr :start
   # xml_attr :event_participations, :as => [EventParticipation]
@@ -18,17 +22,6 @@ class Event < ActiveRecord::Base
   # RuntimeError (You must override subscribers in order to enable federation on this model)
   def subscribers(user)
     user.contact_people
-  end
-
-  # attr_accessor :diaspora_handle
-
-  def diaspora_handle
-    @dh
-    byebug
-  end
-
-  def diaspora_handle= (handle)
-    @dh = handle
   end
 
   # def diaspora_handle

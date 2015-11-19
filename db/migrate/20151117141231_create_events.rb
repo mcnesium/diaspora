@@ -2,6 +2,7 @@ class CreateEvents < ActiveRecord::Migration
   def up
 
     create_table :events do |t|
+      t.belongs_to :author
       t.string :title
       t.datetime :start
       t.string :guid

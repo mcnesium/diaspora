@@ -39,6 +39,7 @@ class EventsController < ApplicationController
 
     # create new event with given params
     event = Event.create(
+        author: current_user.person,
         title: params[:title],
         # start: params[:start],
     )

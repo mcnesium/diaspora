@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 20151117141231) do
   add_index "event_roles", ["person_id", "event_id"], name: "index_event_roles_on_person_id_and_event_id", unique: true, using: :btree
 
   create_table "events", force: :cascade do |t|
+    t.integer  "author_id",  limit: 4
     t.string   "title",      limit: 255
     t.datetime "start"
     t.string   "guid",       limit: 255
