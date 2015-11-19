@@ -17,7 +17,8 @@ class Event < ActiveRecord::Base
   def subscribers(user)
     user.contact_people
   end
-  # def diaspora_handle
+  def diaspora_handle
+  end
   #   # binding.pry
   #   self.owner.diaspora_handle
   # end
