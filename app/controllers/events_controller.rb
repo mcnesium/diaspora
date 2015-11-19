@@ -51,7 +51,7 @@ class EventsController < ApplicationController
     # return created event
     # binding.pry
 
-    # Postzord::Dispatcher.defer_build_and_post(current_user, event)
+    Postzord::Dispatcher.defer_build_and_post(current_user, event)
     # render :json => event.to_json( :include => :event_participations ),
     render :json => event.to_json,
             content_type: "application/json"

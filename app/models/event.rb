@@ -1,8 +1,9 @@
 class Event < ActiveRecord::Base
-  # include Diaspora::Federated::Base
-  # include Diaspora::Guid
-  #
-  # xml_attr :title
+  include Diaspora::Federated::Base
+  include Diaspora::Guid
+
+  validates :title, length: { minimum: 1, maximum: 255 }
+  xml_attr :title
   # xml_attr :start
   # xml_attr :event_participations, :as => [EventParticipation]
   #
@@ -10,12 +11,12 @@ class Event < ActiveRecord::Base
   #
   # accepts_nested_attributes_for :event_participations
   #
-  validates :title, length: { minimum: 1, maximum: 255 }
   # validates :start, presence: true
-  #
-  # def subscribers(user)
-  #   user.contact_people
-  # end
+
+  # RuntimeError (You must override subscribers in order to enable federation on this model)
+  def subscribers(user)
+    user.contact_people
+  end
   # def diaspora_handle
   #   # binding.pry
   #   self.owner.diaspora_handle
