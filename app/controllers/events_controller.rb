@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!, :only => [:create, :update]
-  # skip_before_filter :verify_authenticity_token
+  skip_before_filter :verify_authenticity_token
   #
   # require 'date'
   #
@@ -11,9 +11,10 @@ class EventsController < ApplicationController
 
   def show
     # return given event, include event-related participations
-    render :json => Event.find(params[:id])
-      .to_json( :include => :event_participations ),
-      content_type: "application/json"
+    render :json => Event.find(params[:id]).to_json,
+                    content_type: "application/json"
+      # .to_json( :include => :event_participations ),
+
   end
 
   def create
@@ -51,7 +52,8 @@ class EventsController < ApplicationController
     # binding.pry
 
     # Postzord::Dispatcher.defer_build_and_post(current_user, event)
-    render :json => event.to_json( :include => :event_participations ),
+    # render :json => event.to_json( :include => :event_participations ),
+    render :json => event.to_json,
             content_type: "application/json"
   end
 
