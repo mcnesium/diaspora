@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
 
   validates :title, length: { minimum: 1, maximum: 255 }
   xml_attr :title
+  xml_attr :diaspora_handle
+
   # xml_attr :start
   # xml_attr :event_participations, :as => [EventParticipation]
   #
