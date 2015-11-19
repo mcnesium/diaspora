@@ -51,12 +51,10 @@ class EventsController < ApplicationController
     # return created event
     # binding.pry
 
-    event.diaspora_handle= current_user.diaspora_handle
-
+    event.diaspora_handle=current_user.diaspora_handle
+    byebug
     Postzord::Dispatcher.defer_build_and_post(current_user, event)
-    # render :json => event.to_json( :include => :event_participations ),
-    render :json => event.to_json,
-            content_type: "application/json"
+    render :json => event.to_json, content_type: "application/json"
   end
 
   # def update
