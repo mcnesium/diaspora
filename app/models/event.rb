@@ -24,6 +24,7 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
 
+
   def diaspora_handle
     self.author.diaspora_handle
   end
@@ -36,24 +37,25 @@ class Event < ActiveRecord::Base
   #   # return the person that participation has the owner role
   #   Person.find_by( id: self.event_participations.detect{|role| role = EventParticipation.roles[:owner] }.participant_id )
   # end
-  #
-  # def receive(user, person)
-  #
-  #   ev = Event.find_by_guid(self.guid)
-  #   if ev
-  #     ev.title = self.title
-  #     ev.start = self.start
-  #     ev.save
-  #
-  #     return ev
-  #   end
-  #
-  #   for participation in self.event_participations
-  #     participation.event=self
-  #   end
-  #
-  #   self.save
-  #
-  # end
+
+  # RuntimeError (You must override receive in order to enable federation on this model):
+  def receive(user, person)
+
+    ev = Event.find_by_guid(self.guid)
+    if ev
+      ev.title = self.title
+      ev.start = self.start
+      ev.save
+
+      return ev
+    end
+
+    for participation in self.event_participations
+      participation.event=self
+    end
+
+    self.save
+
+  end
 
 end
