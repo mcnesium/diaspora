@@ -31,8 +31,8 @@ class EventsController < ApplicationController
 
     # check if title or return error
     if not params[:title]
-        render :json => { "error": "Missing title" },
-                status: 400,
+        render :json => { "error": "'title' required" },
+                status: 422,
                 content_type: "application/json"
       return
     end
