@@ -16,14 +16,14 @@ class CreateEvents < ActiveRecord::Migration
     end
     add_index :event_attendances, [:attendee_id, :event_id], unique: true
 
-    # create_table :event_invitations do |t|
-    #   t.belongs_to :invitee, :null => false
-    #   t.belongs_to :event, :null => false
-    #   t.belongs_to :invitor, :null => false
-    #   t.timestamps null: false
-    # end
-    # add_index :event_invitations, [:invitee_id, :event_id], unique: true
-    #
+    create_table :event_invitations do |t|
+      t.belongs_to :invitee, :null => false
+      t.belongs_to :event, :null => false
+      t.belongs_to :invitor, :null => false
+      t.timestamps null: false
+    end
+    add_index :event_invitations, [:invitee_id, :event_id], unique: true
+
     # create_table :event_roles do |t|
     #   t.belongs_to :person, :null => false
     #   t.belongs_to :event, :null => false
@@ -38,8 +38,8 @@ class CreateEvents < ActiveRecord::Migration
     drop_table :events
     drop_table :event_attendances
     remove_index :event_attendances, [:attendee_id, :event_id]
-    # drop_table :event_invitations
-    # remove_index :event_invitations, [:invitee_id, :event_id]
+    drop_table :event_invitations
+    remove_index :event_invitations, [:invitee_id, :event_id]
     # drop_table :event_roles
     # remove_index :event_roles, [:person_id, :event_id]
   end
