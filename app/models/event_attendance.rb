@@ -12,6 +12,7 @@ class EventAttendance < ActiveRecord::Base
   xml_name :event_attendance
   xml_attr :event_guid
   xml_attr :attendee_guid
+  xml_attr :diaspora_handle
 
   # RuntimeError (You must override subscribers in order to enable federation on this model)
   def subscribers(user)
@@ -32,6 +33,14 @@ class EventAttendance < ActiveRecord::Base
 
   def attendee_guid= (guid)
     self.attendee = Person.find_by_guid(guid)
+  end
+
+  def diaspora_handle
+    self.attendee.diaspora_handle
+  end
+
+  def diaspora_handle= (handle)
+    self.attendee = Person.find_by_diaspora_handle(handle)
   end
 
 end
