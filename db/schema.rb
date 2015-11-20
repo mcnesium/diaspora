@@ -137,35 +137,14 @@ ActiveRecord::Schema.define(version: 20151117141231) do
 
   add_index "conversations", ["author_id"], name: "conversations_author_id_fk", using: :btree
 
-  create_table "event_attendings", force: :cascade do |t|
-    t.integer  "attendant_id", limit: 4, null: false
-    t.integer  "event_id",     limit: 4, null: false
-    t.boolean  "attending"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+  create_table "event_attendances", force: :cascade do |t|
+    t.integer  "attendee_id", limit: 4, null: false
+    t.integer  "event_id",    limit: 4, null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
-  add_index "event_attendings", ["attendant_id", "event_id"], name: "index_event_attendings_on_attendant_id_and_event_id", unique: true, using: :btree
-
-  create_table "event_invitations", force: :cascade do |t|
-    t.integer  "invitee_id", limit: 4, null: false
-    t.integer  "event_id",   limit: 4, null: false
-    t.integer  "invitor_id", limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "event_invitations", ["invitee_id", "event_id"], name: "index_event_invitations_on_invitee_id_and_event_id", unique: true, using: :btree
-
-  create_table "event_roles", force: :cascade do |t|
-    t.integer  "person_id",  limit: 4,             null: false
-    t.integer  "event_id",   limit: 4,             null: false
-    t.integer  "role",       limit: 4, default: 0
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-  end
-
-  add_index "event_roles", ["person_id", "event_id"], name: "index_event_roles_on_person_id_and_event_id", unique: true, using: :btree
+  add_index "event_attendances", ["attendee_id", "event_id"], name: "index_event_attendances_on_attendee_id_and_event_id", unique: true, using: :btree
 
   create_table "events", force: :cascade do |t|
     t.integer  "author_id",  limit: 4
