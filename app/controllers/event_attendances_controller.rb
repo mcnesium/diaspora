@@ -19,7 +19,7 @@ class EventAttendancesController < ApplicationController
       else
         attendance = EventAttendance.create( event: event, attendee: current_user.person )
 
-        # Postzord::Dispatcher.defer_build_and_post(current_user, attendance)
+        Postzord::Dispatcher.defer_build_and_post(current_user, attendance)
         render :json => attendance, content_type: "application/json"
       end
     end
