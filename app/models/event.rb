@@ -24,7 +24,6 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
 
-
   def diaspora_handle
     self.author.diaspora_handle
   end
@@ -39,15 +38,14 @@ class Event < ActiveRecord::Base
   # end
 
   # RuntimeError (You must override receive in order to enable federation on this model):
-  def receive(user, person)
+  def receive
 
-    ev = Event.find_by_guid(self.guid)
-    if ev
-      ev.title = self.title
-      ev.start = self.start
-      ev.save
+    event = Event.find_by_guid(self.guid)
+    if event
+      event.title = self.title
+      event.save
 
-      return ev
+      return event
     end
 
     # for participation in self.event_participations
