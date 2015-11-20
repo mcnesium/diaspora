@@ -28,6 +28,10 @@ class Event < ActiveRecord::Base
     self.author.diaspora_handle
   end
 
+  def diaspora_handle= (handle)
+    self.author = Person.find_by_diaspora_handle(handle)
+  end
+
   # def owner
   #   # return the person that participation has the owner role
   #   Person.find_by( id: self.event_participations.detect{|role| role = EventParticipation.roles[:owner] }.participant_id )
