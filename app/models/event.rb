@@ -50,9 +50,9 @@ class Event < ActiveRecord::Base
       return ev
     end
 
-    for participation in self.event_participations
-      participation.event=self
-    end
+    # for participation in self.event_participations
+    #   participation.event=self
+    # end
 
     self.save
 
