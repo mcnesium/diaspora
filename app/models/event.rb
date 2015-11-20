@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   validates :author, presence: true
   validates :title, length: { minimum: 1, maximum: 255 }
 
-  xml_attr :author
+  xml_attr :diaspora_handle
   xml_attr :title
 
   # xml_attr :start
@@ -24,10 +24,10 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
 
-  # def diaspora_handle
-  #   # binding.pry
-  #   self.owner.diaspora_handle
-  # end
+  def diaspora_handle
+    self.author.diaspora_handle
+  end
+
   # def owner
   #   # return the person that participation has the owner role
   #   Person.find_by( id: self.event_participations.detect{|role| role = EventParticipation.roles[:owner] }.participant_id )
