@@ -13,9 +13,9 @@ class Event < ActiveRecord::Base
   # xml_attr :start
   # xml_attr :event_participations, :as => [EventParticipation]
   #
-  # has_many :event_participations
-  #
-  # accepts_nested_attributes_for :event_participations
+  has_many :event_attendances
+
+  accepts_nested_attributes_for :event_attendances
   #
   # validates :start, presence: true
 

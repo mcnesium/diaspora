@@ -11,10 +11,7 @@ class EventsController < ApplicationController
 
   def show
     # return given event, include event-related participations
-    render :json => Event.find(params[:id]).to_json,
-                    content_type: "application/json"
-      # .to_json( :include => :event_participations ),
-
+    render :json => Event.find(params[:id]).to_json( :include => :event_attendances ), content_type: "application/json"
   end
 
   def create
@@ -35,25 +32,27 @@ class EventsController < ApplicationController
                 status: 422,
                 content_type: "application/json"
       return
-    end
 
     # create new event with given params
-    event = Event.create(
-        author: current_user.person,
-        title: params[:title],
-        # start: params[:start],
-    )
-    # create participation, set the current user to the event's owner
-    # participation = EventParticipation.create(
-    #    participant: current_user.person,
-    #    event: event,
-    #    role: EventParticipation.roles[:owner]
-    # )
-    # return created event
-    # binding.pry
+    else
 
-    Postzord::Dispatcher.defer_build_and_post(current_user, event)
-    render :json => event.to_json, content_type: "application/json"
+      event = Event.create(
+          author: current_user.person,
+          title: params[:title],
+          # start: params[:start],
+      )
+      # create participation, set the current user to the event's owner
+      # participation = EventParticipation.create(
+      #    participant: current_user.person,
+      #    event: event,
+      #    role: EventParticipation.roles[:owner]
+      # )
+      # return created event
+      # binding.pry
+
+      Postzord::Dispatcher.defer_build_and_post(current_user, event)
+      render :json => event.to_json, content_type: "application/json"
+    end
   end
 
   # def update
