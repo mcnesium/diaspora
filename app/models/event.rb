@@ -38,11 +38,12 @@ class Event < ActiveRecord::Base
   # end
 
   # RuntimeError (You must override receive in order to enable federation on this model):
-  def receive(u,p)
+  def receive(user, person)
 
     event = Event.find_by_guid(self.guid)
     if event
       event.title = self.title
+      event.author = person
       event.save
 
       return event

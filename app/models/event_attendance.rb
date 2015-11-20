@@ -43,4 +43,9 @@ class EventAttendance < ActiveRecord::Base
     self.attendee = Person.find_by_diaspora_handle(handle)
   end
 
+  # RuntimeError (You must override receive in order to enable federation on this model):
+  def receive(u, p)
+    self.save
+  end
+
 end
