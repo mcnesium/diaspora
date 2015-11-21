@@ -255,5 +255,6 @@ Diaspora::Application.routes.draw do
   resources :events
   resources :event_attendances
   resources :event_invitations
+  resources :event_editors
 
 end
