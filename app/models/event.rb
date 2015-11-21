@@ -25,11 +25,10 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
 
-  def editor= (editor)
-    self.editor = editor
-  end
+  attr_accessor :editor
 
   def diaspora_handle
+    byebug
     if self.editor
       self.editor.diaspora_handle
     else
