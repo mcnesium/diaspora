@@ -36,12 +36,12 @@ class EventEditor < ActiveRecord::Base
   end
 
   def diaspora_handle
-    self.editor.diaspora_handle
+    self.event.author.diaspora_handle
   end
 
-  def diaspora_handle= (handle)
-    self.editor = Person.find_by_diaspora_handle(handle)
-  end
+  # def diaspora_handle= (handle)
+  #   self.editor = Person.find_by_diaspora_handle(handle)
+  # end
 
   # RuntimeError (You must override receive in order to enable federation on this model):
   def receive(u, p)
