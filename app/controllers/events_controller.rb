@@ -63,6 +63,7 @@ class EventsController < ApplicationController
       return
     else
       event.title = params[:title] || event.title
+      event.editor = editor || current_user.person
       event.save
 
       Postzord::Dispatcher.defer_build_and_post(current_user, event)
