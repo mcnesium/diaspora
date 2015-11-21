@@ -58,7 +58,7 @@ class EventsController < ApplicationController
     editor = EventEditor.find_by( event: event, editor: current_user.person )
 
     # check if current user is editor or author of the event
-    if not editor && not event.author === current_user.person
+    if (not editor) && (not event.author === current_user.person)
       render :json => { "error": "not allowed" }, status: 401, content_type: "application/json"
       return
     else
