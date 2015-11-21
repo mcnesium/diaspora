@@ -20,7 +20,7 @@ class EventInvitationsController < ApplicationController
         render :json => { "error": "invitation exists" }, status: 409, content_type: "application/json"
         return
 
-      # create a new attendance
+      # create a new invitation
       else
         invitation = EventInvitation.create( event: event, invitee: invitee, invitor: current_user.person )
 
