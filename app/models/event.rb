@@ -25,7 +25,8 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
 
-  def editor
+  def editor= (editor)
+    self.editor = editor
   end
 
   def diaspora_handle
