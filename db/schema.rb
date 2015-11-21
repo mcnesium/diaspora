@@ -146,6 +146,15 @@ ActiveRecord::Schema.define(version: 20151117141231) do
 
   add_index "event_attendances", ["attendee_id", "event_id"], name: "index_event_attendances_on_attendee_id_and_event_id", unique: true, using: :btree
 
+  create_table "event_editors", force: :cascade do |t|
+    t.integer  "editor_id",  limit: 4, null: false
+    t.integer  "event_id",   limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "event_editors", ["editor_id", "event_id"], name: "index_event_editors_on_editor_id_and_event_id", unique: true, using: :btree
+
   create_table "event_invitations", force: :cascade do |t|
     t.integer  "invitee_id", limit: 4, null: false
     t.integer  "event_id",   limit: 4, null: false
