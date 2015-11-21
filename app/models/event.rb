@@ -11,12 +11,13 @@ class Event < ActiveRecord::Base
   xml_attr :title
 
   # xml_attr :start
-  # xml_attr :event_participations, :as => [EventParticipation]
-  #
+
   has_many :event_attendances
+  has_many :event_invitations
 
   accepts_nested_attributes_for :event_attendances
-  #
+  accepts_nested_attributes_for :event_invitations
+
   # validates :start, presence: true
 
   # RuntimeError (You must override subscribers in order to enable federation on this model)

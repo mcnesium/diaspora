@@ -11,7 +11,12 @@ class EventsController < ApplicationController
 
   def show
     # return given event, include event-related participations
-    render :json => Event.find(params[:id]).to_json( :include => :event_attendances ), content_type: "application/json"
+    render :json => Event.find(params[:id])
+        .to_json( :include => [
+            :event_attendances,
+            :event_invitations
+        ]),
+        content_type: "application/json"
   end
 
   def create
