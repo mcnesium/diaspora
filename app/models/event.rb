@@ -28,7 +28,6 @@ class Event < ActiveRecord::Base
   attr_accessor :editor
 
   def diaspora_handle
-    byebug
     if self.editor
       self.editor.diaspora_handle
     else
