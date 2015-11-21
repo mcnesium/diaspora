@@ -60,31 +60,23 @@ class EventsController < ApplicationController
     end
   end
 
-  # def update
-  #   # get given event, check if it actually exists
-  #   event = Event.find(params[:id])
-  #
-  #   # get event-related event participation
-  #   ep = EventParticipation.find_by(event: event, participant: current_user.person)
-  #
-  #   # return false and exit if current user is not related or not privileged
-  #   if ep == nil || !ep.privileged?
-  #     render :json => { "error": "You are not allowed to update this event" },
-  #           status: 403,
-  #           content_type: "application/json"
-  #     return
-  #   end
-  #
-  #   # else, if current user is allowed, edit the event details
-  #   event.title = params[:title] || event.title
-  #   event.start = params[:start] || event.start
-  #   event.save
-  #
-  #   Postzord::Dispatcher.defer_build_and_post(current_user, event)
-  #
-  #   # return updated event
-  #   render :json => event, content_type: "application/json"
-  #
-  # end
+  def update
+
+    event = Event.find(params[:id])
+
+    # check if current user is author of the event
+    if not event.author == current_user.person
+      render :json => { "error": "not allowed" }, status: 401, content_type: "application/json"
+      return
+    else
+      event.title = params[:title] || event.title
+      event.save
+
+      Postzord::Dispatcher.defer_build_and_post(current_user, event)
+
+      # return updated event
+      render :json => event, content_type: "application/json"
+    end
+  end
 
 end
