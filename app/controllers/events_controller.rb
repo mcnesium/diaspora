@@ -46,14 +46,6 @@ class EventsController < ApplicationController
           title: params[:title],
           # start: params[:start],
       )
-      # create participation, set the current user to the event's owner
-      # participation = EventParticipation.create(
-      #    participant: current_user.person,
-      #    event: event,
-      #    role: EventParticipation.roles[:owner]
-      # )
-      # return created event
-      # binding.pry
 
       Postzord::Dispatcher.defer_build_and_post(current_user, event)
       render :json => event.to_json, content_type: "application/json"
@@ -63,9 +55,10 @@ class EventsController < ApplicationController
   def update
 
     event = Event.find(params[:id])
+    editor = EventEditor.find_by( event: event, editor: current_user.person )
 
-    # check if current user is author of the event
-    if not event.author == current_user.person
+    # check if current user is editor or author of the event
+    if not editor && not event.author === current_user.person
       render :json => { "error": "not allowed" }, status: 401, content_type: "application/json"
       return
     else
