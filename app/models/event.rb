@@ -26,7 +26,13 @@ class Event < ActiveRecord::Base
   end
 
   def diaspora_handle
-    self.author.diaspora_handle
+
+    if EventEditor.find_by( event: event, editor: current_user.person )
+      current_user.diaspora_handle
+    elsif current_user.person == self.author
+      self.author.diaspora_handle
+    end
+
   end
 
   def diaspora_handle= (handle)
