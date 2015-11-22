@@ -14,9 +14,11 @@ class Event < ActiveRecord::Base
 
   has_many :event_attendances
   has_many :event_invitations
+  has_many :event_editors
 
   accepts_nested_attributes_for :event_attendances
   accepts_nested_attributes_for :event_invitations
+  accepts_nested_attributes_for :event_editors
 
   # validates :start, presence: true
 
