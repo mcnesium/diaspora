@@ -25,4 +25,11 @@ class EventAttendancesController < ApplicationController
     end
   end
 
+  # def destroy
+  #   # find the given attendance corresponding to the current user
+  #   @attendance = EventAttendance.find_by_id_and_attendee_id!(params[:id], current_user.person.id)
+  #   current_user.retract(@attendance)
+  #   render :json => { "success": "attendance deleted" }, content_type: "application/json"
+  # end
+
 end
