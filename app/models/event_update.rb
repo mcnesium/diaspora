@@ -4,7 +4,6 @@ class EventUpdate
   xml_name :event_update
   xml_attr :event
   xml_attr :title
-  xml_attr :id
   xml_attr :diaspora_handle
 
   attr_accessor :diaspora_handle
@@ -14,7 +13,9 @@ class EventUpdate
   end
 
   def receive(receiver, sender)
-byebug
+    event = Event.find_by_guid(self.guid)
+    event.title = self.title
+    event.save
   end
 
   attr_accessor :event, :title
