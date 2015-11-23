@@ -27,15 +27,8 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
 
-  attr_accessor :editor
-
   def diaspora_handle
-    if self.editor
-      self.editor.diaspora_handle
-    else
       self.author.diaspora_handle
-    end
-
   end
 
   def diaspora_handle= (handle)

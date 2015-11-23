@@ -62,11 +62,17 @@ class EventsController < ApplicationController
       render :json => { "error": "not allowed" }, status: 401, content_type: "application/json"
       return
     else
+      # change local event
       event.title = params[:title] || event.title
-      event.editor = editor.editor || current_user.person
       event.save
 
-      Postzord::Dispatcher.defer_build_and_post(current_user, event)
+      # create an event update entity to federate
+      @event_update = EventUpdate.new(
+        event: event.guid,
+        title: params[:title],
+        diaspora_handle: current_user.diaspora_handle
+      )
+      Postzord::Dispatcher.build(current_user, @event_update).post
 
       # return updated event
       render :json => event, content_type: "application/json"
