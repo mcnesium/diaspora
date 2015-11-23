@@ -6,8 +6,6 @@ class EventUpdate
   xml_attr :title
   xml_attr :diaspora_handle
 
-  attr_accessor :diaspora_handle
-
   def subscribers(user)
     user.contact_people
   end
@@ -18,11 +16,12 @@ class EventUpdate
     event.save
   end
 
-  attr_accessor :event, :title
+  attr_accessor :event, :title, :diaspora_handle
 
   def initialize(attributes = {})
     @event = attributes[:event]
     @title = attributes[:title]
+    @diaspora_handle = attributes[:diaspora_handle]
   end
 
 end

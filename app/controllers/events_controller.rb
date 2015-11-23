@@ -65,7 +65,11 @@ class EventsController < ApplicationController
       event.title = params[:title] || event.title
       event.save
 
-      @event_update = EventUpdate.new( event: event.guid, title: params[:title] )
+      @event_update = EventUpdate.new(
+        event: event.guid,
+        title: params[:title],
+        diaspora_handle: current_user.diaspora_handle
+      )
       Postzord::Dispatcher.build(current_user, @event_update).post
 
       # return updated event
