@@ -14,9 +14,11 @@ class Event < ActiveRecord::Base
 
   has_many :event_attendances
   has_many :event_invitations
+  has_many :event_editors
 
   accepts_nested_attributes_for :event_attendances
   accepts_nested_attributes_for :event_invitations
+  accepts_nested_attributes_for :event_editors
 
   # validates :start, presence: true
 
@@ -25,15 +27,8 @@ class Event < ActiveRecord::Base
     user.contact_people
   end
 
-  # attr_accessor :editor
-
   def diaspora_handle
-    # if self.editor
-    #   self.editor.diaspora_handle
-    # else
       self.author.diaspora_handle
-    # end
-
   end
 
   def diaspora_handle= (handle)
