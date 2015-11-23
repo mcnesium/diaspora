@@ -66,9 +66,9 @@ class EventsController < ApplicationController
       # event.editor = editor.editor || current_user.person
       event.save
 
-      event_update = EventUpdate.new( event: event.guid, title: params[:title], id: 1 )
-      Postzord::Dispatcher.defer_build_and_post(current_user, event_update)
-      # Postzord::Dispatcher.build(current_user, event_update).post
+      @event_update = EventUpdate.new( event: event.guid, title: params[:title] )
+      # Postzord::Dispatcher.defer_build_and_post(current_user, @event_update)
+      Postzord::Dispatcher.build(current_user, @event_update).post
 
       # return updated event
       render :json => event, content_type: "application/json"
