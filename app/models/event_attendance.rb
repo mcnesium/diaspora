@@ -1,6 +1,7 @@
 class EventAttendance < ActiveRecord::Base
   include Diaspora::Federated::Base
   include Diaspora::Guid
+  include Diaspora::Relayable
 
   belongs_to :event
   validates :event, presence: true
@@ -17,7 +18,15 @@ class EventAttendance < ActiveRecord::Base
 
   # RuntimeError (You must override subscribers in order to enable federation on this model)
   def subscribers(user)
-    user.contact_people
+    self.event.subscribers(user)
+  end
+
+  def parent
+    self.event
+  end
+
+  def author
+    self.attendee
   end
 
   def event_guid
