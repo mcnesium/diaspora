@@ -1,5 +1,6 @@
 class EventAttendance < ActiveRecord::Base
   include Diaspora::Federated::Base
+  include Diaspora::Guid
 
   belongs_to :event
   validates :event, presence: true

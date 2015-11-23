@@ -12,6 +12,7 @@ class CreateEvents < ActiveRecord::Migration
     create_table :event_attendances do |t|
       t.belongs_to :attendee, :null => false
       t.belongs_to :event, :null => false
+      t.string :guid
       t.timestamps null: false
     end
     add_index :event_attendances, [:attendee_id, :event_id], unique: true
@@ -20,6 +21,7 @@ class CreateEvents < ActiveRecord::Migration
       t.belongs_to :invitee, :null => false
       t.belongs_to :event, :null => false
       t.belongs_to :invitor, :null => false
+      t.string :guid
       t.timestamps null: false
     end
     add_index :event_invitations, [:invitee_id, :event_id], unique: true
@@ -27,6 +29,7 @@ class CreateEvents < ActiveRecord::Migration
     create_table :event_editors do |t|
       t.belongs_to :editor, :null => false
       t.belongs_to :event, :null => false
+      t.string :guid
       t.timestamps null: false
     end
     add_index :event_editors, [:editor_id, :event_id], unique: true
