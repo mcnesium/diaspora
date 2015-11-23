@@ -13,7 +13,14 @@ class EventUpdate
   end
 
   def receive(receiver, sender)
+byebug
+  end
 
+  attr_accessor :event, :title
+
+  def initialize(attributes = {})
+    @event = attributes[:event]
+    @title = attributes[:title]
   end
 
 end

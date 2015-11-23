@@ -1,8 +1,8 @@
 class EventUpdatesController
-  def new(*args)
-    byebug
-    EventUpdate.new(
-      *args
-    )
+
+  def initialize(attributes = {})
+    @event = attributes[:event]
+    @title = attributes[:title]
   end
+
 end
