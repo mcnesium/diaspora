@@ -62,9 +62,11 @@ class EventsController < ApplicationController
       render :json => { "error": "not allowed" }, status: 401, content_type: "application/json"
       return
     else
+      # change local event
       event.title = params[:title] || event.title
       event.save
 
+      # create an event update entity to federate
       @event_update = EventUpdate.new(
         event: event.guid,
         title: params[:title],
