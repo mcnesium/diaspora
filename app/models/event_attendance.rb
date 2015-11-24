@@ -21,12 +21,23 @@ class EventAttendance < ActiveRecord::Base
     self.event.subscribers(user)
   end
 
+  def public?
+    true
+  end
+
   def parent
     self.event
   end
 
   def author
     self.attendee
+  end
+
+  def author_signature
+    self.sign_with_key(self.author.owner.encryption_key) if self.author.owner
+  end
+  def parent_author_signature
+    self.sign_with_key(self.parent.author.owner.encryption_key) if self.parent.author.owner
   end
 
   def event_guid
