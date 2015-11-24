@@ -51,6 +51,8 @@ var app = {
     this.setupBackboneLinks();
     this.setupGlobalViews();
     this.setupDisabledLinks();
+    this.setupForms();
+    this.setupAjaxErrorRedirect();
   },
 
   hasPreload : function(prop) {
@@ -94,11 +96,25 @@ var app = {
 
     // there's probably a better way to do this...
     $(document).on("click", "a[rel=backbone]", function(evt){
+      if (!(app.stream && /^\/(?:stream|activity|aspects|public|mentions|likes)/.test(app.stream.basePath()))) {
+        // We aren't on a regular stream page
+        return;
+      }
+
       evt.preventDefault();
       var link = $(this);
+      if(link.data("stream-title") && link.data("stream-title").length) {
+        $(".stream_title").text(link.data("stream-title"));
+      } else {
+        $(".stream_title").text(link.text());
+      }
 
-      $(".stream_title").text(link.text());
-      app.router.navigate(link.attr("href").substring(1) ,true);
+      $("html, body").animate({scrollTop: 0});
+
+      // app.router.navigate doesn't tell us if it changed the page,
+      // so we use Backbone.history.navigate instead.
+      var change = Backbone.history.navigate(link.attr("href").substring(1) ,true);
+      if(change === undefined) { Backbone.history.loadUrl(link.attr("href").substring(1)); }
     });
   },
 
@@ -109,6 +125,7 @@ var app = {
     });
     app.sidebar = new app.views.Sidebar();
     app.backToTop = new app.views.BackToTop({el: $(document)});
+    app.flashMessages = new app.views.FlashMessages({el: $("#flash-container")});
   },
 
   /* mixpanel wrapper function */
@@ -121,6 +138,33 @@ var app = {
     $("a.disabled").click(function(event) {
       event.preventDefault();
     });
+  },
+
+  setupForms: function() {
+    // add placeholder support for old browsers
+    $("input, textarea").placeholder();
+
+    // setup remote forms
+    $(document).on("ajax:success", "form[data-remote]", function() {
+      $(this).clearForm();
+      $(this).focusout();
+    });
+  },
+
+  setupAjaxErrorRedirect: function() {
+    var self = this;
+    // Binds the global ajax event. To prevent this, add
+    // preventGlobalErrorHandling: true
+    // to the settings of your ajax calls
+    $(document).ajaxError(function(evt, jqxhr, settings) {
+      if(jqxhr.status === 401 && !settings.preventGlobalErrorHandling) {
+        self._changeLocation(Routes.newUserSession());
+      }
+    });
+  },
+
+  _changeLocation: function(href) {
+    window.location.assign(href);
   }
 };
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003142048) do
+ActiveRecord::Schema.define(version: 20151117141231) do
 
   create_table "account_deletions", force: :cascade do |t|
     t.string   "diaspora_handle", limit: 255
@@ -137,24 +137,45 @@ ActiveRecord::Schema.define(version: 20151003142048) do
 
   add_index "conversations", ["author_id"], name: "conversations_author_id_fk", using: :btree
 
-  create_table "event_participations", force: :cascade do |t|
-    t.string   "person_id",  limit: 255
-    t.string   "event_id",   limit: 255
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.string   "invited_by", limit: 255
-    t.boolean  "attending",              default: false
-    t.integer  "role",       limit: 4,   default: 0
+  create_table "event_attendances", force: :cascade do |t|
+    t.integer  "attendee_id", limit: 4,   null: false
+    t.integer  "event_id",    limit: 4,   null: false
+    t.string   "guid",        limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
-  add_index "event_participations", ["event_id", "person_id"], name: "index_event_participations_on_event_id_and_person_id", unique: true, length: {"event_id"=>32, "person_id"=>32}, using: :btree
+  add_index "event_attendances", ["attendee_id", "event_id"], name: "index_event_attendances_on_attendee_id_and_event_id", unique: true, using: :btree
 
-  create_table "events", force: :cascade do |t|
-    t.string   "title",      limit: 255
+  create_table "event_editors", force: :cascade do |t|
+    t.integer  "editor_id",  limit: 4,   null: false
+    t.integer  "event_id",   limit: 4,   null: false
+    t.string   "guid",       limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  add_index "event_editors", ["editor_id", "event_id"], name: "index_event_editors_on_editor_id_and_event_id", unique: true, using: :btree
+
+  create_table "event_invitations", force: :cascade do |t|
+    t.integer  "invitee_id", limit: 4,   null: false
+    t.integer  "event_id",   limit: 4,   null: false
+    t.integer  "invitor_id", limit: 4,   null: false
+    t.string   "guid",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "event_invitations", ["invitee_id", "event_id"], name: "index_event_invitations_on_invitee_id_and_event_id", unique: true, using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "author_id",  limit: 4
+    t.string   "title",      limit: 255
     t.datetime "start"
     t.string   "guid",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+
   end
 
   create_table "invitation_codes", force: :cascade do |t|

@@ -22,12 +22,6 @@ on_failure()
   fi
 }
 
-# Check for MySQL server
-if [ `mysql.server status | awk '{print $1;}'` != "SUCCESS!" ]
-then
-    fatal "MySQL server not running"
-fi
-
 # Check if already running/port blocked
 chk_service()
 {
