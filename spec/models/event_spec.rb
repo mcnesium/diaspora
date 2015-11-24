@@ -2,9 +2,16 @@ require 'spec_helper'
 
 describe Event, :type => :model do
 
-  it 'is a valid object' do
-    expect(event_1.valid?).to be true
-    # TODO RAILS_ENV="test" bin/rake db:create db:schema:load fails
+  before do
+    @event = Event.new( title: "Test Event", author: alice.person )
+  end
+
+  describe 'validation' do
+
+    it 'should create an event' do
+    	expect(@event).to be_valid
+    end
+
   end
 
 end

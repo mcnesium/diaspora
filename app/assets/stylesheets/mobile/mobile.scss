@@ -1,4 +1,4 @@
-@import "colors";
+@import 'color-variables';
 @import "bootstrap-complete";
 @import "_mixins";
 @import "vendor/autoSuggest";
@@ -34,10 +34,6 @@ body {
 h3 {  margin-top: 0; }
 .clear { clear: both; }
 #main { padding: 56px 10px 0 10px; }
-
-.message {
-  padding-left: 2px;
-}
 
 .avatar {
   border-radius: 4px;
