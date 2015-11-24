@@ -25,8 +25,16 @@ class EventAttendance < ActiveRecord::Base
     true
   end
 
+  def parent_class
+    Event
+  end
+
   def parent
     self.event
+  end
+
+  def parent= parent
+    self.event = parent
   end
 
   def author
