@@ -82,4 +82,14 @@ class EventsController < ApplicationController
 
   end
 
+  respond_to :html
+
+  def portal
+    respond_to do |format|
+
+      format.html { render 'index' }
+
+    end
+  end
+
 end

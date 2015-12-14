@@ -257,4 +257,6 @@ Diaspora::Application.routes.draw do
   resources :event_invitations
   resources :event_editors
 
+  get "eventportal" => "events#portal"
+
 end
