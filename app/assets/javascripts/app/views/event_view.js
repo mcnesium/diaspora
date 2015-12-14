@@ -15,26 +15,54 @@ var updateEventsList = function() {
       "id": "known-events",
       html: items.join( "" )
     }).appendTo( "#list" );
-  });
 
+    $("li").on("click", function( click ){
+      click.preventDefault();
+      toggleSingleEvent($(this));
+    });
+  });
+}
+
+var createNewEvent = function() {
+  var title = $("input#title").val();
+
+  $.post( "events", { title: title } )
+    .done(function(data){
+      console.log(data);
+      updateEventsList();
+  });
+}
+
+var toggleSingleEvent = function( li ) {
+  if ( li.children().length > 0 ) {
+    li.children().remove();
+  } else {
+    id = li.attr("id");
+
+    $.getJSON( "/events/"+li.attr("id"), function( data ){
+      event = data.event;
+      console.log(event.author_id);
+
+      li.append("<dl>"
+        +"<dt>Attendances</dt><dd>"+event.event_attendances.length+"</dd>"
+        +"<dt>Invitations</dt><dd>"+event.event_invitations.length+"</dd>"
+        +"</dl>"
+      );
+
+    });
+
+  }
 }
 
 $( document ).ready(function() {
 
-  $('a#create').on("click",function( event ){
-    event.preventDefault;
 
-    var title = $("input#title").val();
-
-    $.post( "events", { title: title } )
-      .done(function(data){
-        console.log(data);
-        updateEventsList();
-      })
+  $("a#create").on("click", function( click ){
+    click.preventDefault();
+    createNewEvent();
   });
 
-
-  console.log('ready');
+  console.log("ready");
   updateEventsList();
 
 });

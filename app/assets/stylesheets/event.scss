@@ -1,3 +1,21 @@
 // Place all the styles related to the Event controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+section#list {
+  ul {
+    li {
+      dl {
+        margin-bottom: 0;
+        dt {
+          display: inline;
+          padding: 0 0.5em 0 1em;
+          font-weight: normal;
+        }
+        dd {
+          display: inline;
+        }
+      }
+    }
+  }
+}
