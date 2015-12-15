@@ -59,11 +59,23 @@ var toggleSingleEvent = function( li ) {
 
 var toggleAttendance = function(i){
   if ($(i).hasClass("attending")){
-    $(i).removeClass("attending")
+
+    $.ajax({
+        url: "/event_attendances/"+i.dataset.id,
+        type: 'DELETE',
+        success: function(result) {
+            $(i).removeClass("attending")
+        }
+    });
+
   } else {
-    $(i).addClass("attending")
+
+    $.post( "/event_attendances", { event: i.dataset.id } )
+      .done(function(data){
+        $(i).addClass("attending")
+    });
+
   }
-  console.log(i,i.dataset.id);
 }
 
 
