@@ -14,7 +14,7 @@ var updateEventsList = function() {
     $( "<ul/>", {
       "id": "known-events",
       html: items.join( "" )
-    }).appendTo( "#list" );
+    }).appendTo( "#eventlist" );
 
     $("#eventlist li").on("click", function( click ){
       click.preventDefault();
