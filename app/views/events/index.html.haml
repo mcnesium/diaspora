@@ -1,7 +1,7 @@
 
 - content_for :content do
   #container.container-fluid
-    .content.eventportal
+    .content#eventportal
       %h1
         Events
         %a{ id: 'update', class: 'btn btn-default' } update
@@ -9,5 +9,3 @@
       %form.form-inline
         %input{ type: 'text', placeholder: 'Title', name: 'title', id: 'title', class: 'form-control' }
         %a{ id: 'create', class: 'btn btn-primary' } create
-
-      %section#eventlist

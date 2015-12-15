@@ -10,11 +10,11 @@ var updateEventsList = function() {
       items.push( "<li id='" + id + "'>" + title + "</li>" );
     });
 
-    $( "#known-events").remove();
+    $( "#eventlist").remove();
     $( "<ul/>", {
-      "id": "known-events",
+      "id": "eventlist",
       html: items.join( "" )
-    }).appendTo( "#eventlist" );
+    }).appendTo( "#eventportal" );
 
     $("#eventlist li").on("click", function( click ){
       click.preventDefault();
@@ -44,9 +44,12 @@ var toggleSingleEvent = function( li ) {
       li.append("<dl>"
         +"<dt>Attendances</dt><dd>"+event.event_attendances.length+"</dd>"
         +"<dt>Invitations</dt><dd>"+event.event_invitations.length+"</dd>"
+        +"<i class=\"entypo entypo-check\"></i>"
         +"</dl>"
       );
-      console.log( currentUserIsAttending(event.event_attendances) );
+      if( currentUserIsAttending(event.event_attendances) ){
+        $("#"+event.id+" i.entypo-check").css('color','#0044ff');
+      }
     });
 
   }

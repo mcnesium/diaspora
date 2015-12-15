@@ -2,19 +2,25 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.eventportal {
+#eventportal {
   #eventlist {
-    margin: 1em 0;
+    li {
+      margin: 1em 0;
+    }
+    i {
+      font-size: 1.3em;
+      color: #c0c0c0;
+    }
   }
   dl {
     margin-bottom: 0;
     dt {
       display: inline;
-      padding: 0 0.5em 0 1em;
       font-weight: normal;
     }
     dd {
       display: inline;
+      padding: 0 1em;
     }
   }
 
