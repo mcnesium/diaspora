@@ -46,10 +46,23 @@ var toggleSingleEvent = function( li ) {
         +"<dt>Invitations</dt><dd>"+event.event_invitations.length+"</dd>"
         +"</dl>"
       );
-
+      console.log( currentUserIsAttending(event.event_attendances) );
     });
 
   }
+}
+
+
+var currentUserIsAttending = function( attendances ) {
+  var currentUserAttendance = false;
+  var currentUserId = app.user().id;
+  $.each(attendances, function(key,attendance){
+    if ( currentUserId == attendance.attendee_id ) {
+      currentUserAttendance = true;
+      return false; //break
+    };
+  });
+  return currentUserAttendance;
 }
 
 $( document ).ready(function() {
