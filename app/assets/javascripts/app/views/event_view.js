@@ -60,12 +60,26 @@ var toggleSingleEvent = function( li ) {
 var toggleAttendance = function(i){
   if ($(i).hasClass("attending")){
 
-    $.ajax({
-        url: "/event_attendances/"+i.dataset.id,
-        type: 'DELETE',
-        success: function(result) {
-            $(i).removeClass("attending")
-        }
+    $.getJSON("/events/"+i.dataset.id, function(data){
+      $.each(data.event.event_attendances,function(key, attendance){
+
+        var currentUserId = app.user().id;
+        if ( currentUserId == attendance.attendee_id ) {
+          $.ajax({
+              url: "/event_attendances/"+attendance.id,
+              method: 'DELETE',
+              contentType: "application/json",
+              success: function(suc) {
+                $(i).removeClass("attending")
+              },
+              error: function(err) {
+                console.error(err);
+              }
+          });
+          return false; //break
+        };
+
+      });
     });
 
   } else {
