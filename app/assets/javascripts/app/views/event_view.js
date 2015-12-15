@@ -7,7 +7,7 @@ var updateEventsList = function() {
     $.each( data, function( key, val ) {
       var title = val.event.title;
       var id = val.event.id;
-      items.push( "<li id='" + id + "'>" + title + "</li>" );
+      items.push( "<li id='" + id + "'><b>" + title + "</b></li>" );
     });
 
     $( "#eventlist").remove();
@@ -16,9 +16,9 @@ var updateEventsList = function() {
       html: items.join( "" )
     }).appendTo( "#eventportal" );
 
-    $("#eventlist li").on("click", function( click ){
+    $("#eventlist li b").on("click", function( click ){
       click.preventDefault();
-      toggleSingleEvent($(this));
+      toggleSingleEvent($(this).parent());
     });
   });
 }
@@ -33,8 +33,8 @@ var createNewEvent = function() {
 }
 
 var toggleSingleEvent = function( li ) {
-  if ( li.children().length > 0 ) {
-    li.children().remove();
+  if ( li.children().length > 1 ) {
+    li.children("dl").remove();
   } else {
     id = li.attr("id");
 
@@ -44,15 +44,26 @@ var toggleSingleEvent = function( li ) {
       li.append("<dl>"
         +"<dt>Attendances</dt><dd>"+event.event_attendances.length+"</dd>"
         +"<dt>Invitations</dt><dd>"+event.event_invitations.length+"</dd>"
-        +"<i class=\"entypo entypo-check\"></i>"
+        +"<i data-id=\""+event.id+"\" class=\"entypo entypo-check\"></i>"
         +"</dl>"
       );
       if( currentUserIsAttending(event.event_attendances) ){
-        $("#"+event.id+" i.entypo-check").css('color','#0044ff');
+        $("#"+event.id+" i.entypo-check").addClass('attending');
       }
+      $("#"+event.id+" i.entypo-check").on("click",function(click){
+        toggleAttendance(click.currentTarget);
+      });
     });
-
   }
+}
+
+var toggleAttendance = function(i){
+  if ($(i).hasClass("attending")){
+    $(i).removeClass("attending")
+  } else {
+    $(i).addClass("attending")
+  }
+  console.log(i,i.dataset.id);
 }
 
 

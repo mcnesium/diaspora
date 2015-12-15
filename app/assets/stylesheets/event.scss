@@ -10,6 +10,9 @@
     i {
       font-size: 1.3em;
       color: #c0c0c0;
+      &.attending {
+        color: #0044FF;
+      }
     }
   }
   dl {
