@@ -16,7 +16,7 @@ var updateEventsList = function() {
       html: items.join( "" )
     }).appendTo( "#list" );
 
-    $("li").on("click", function( click ){
+    $("#eventlist li").on("click", function( click ){
       click.preventDefault();
       toggleSingleEvent($(this));
     });
@@ -28,7 +28,6 @@ var createNewEvent = function() {
 
   $.post( "events", { title: title } )
     .done(function(data){
-      console.log(data);
       updateEventsList();
   });
 }
@@ -41,7 +40,6 @@ var toggleSingleEvent = function( li ) {
 
     $.getJSON( "/events/"+li.attr("id"), function( data ){
       event = data.event;
-      console.log(event.author_id);
 
       li.append("<dl>"
         +"<dt>Attendances</dt><dd>"+event.event_attendances.length+"</dd>"
@@ -55,7 +53,6 @@ var toggleSingleEvent = function( li ) {
 }
 
 $( document ).ready(function() {
-
 
   $("a#create").on("click", function( click ){
     click.preventDefault();
