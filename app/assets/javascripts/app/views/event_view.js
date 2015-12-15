@@ -62,7 +62,13 @@ $( document ).ready(function() {
     createNewEvent();
   });
 
+  $("a#update").on("click", function( click ){
+    click.preventDefault();
+    updateEventsList();
+  });
+
   console.log("ready");
-  updateEventsList();
+
+  // setInterval(function() { updateEventsList(); }, 3000);
 
 });
