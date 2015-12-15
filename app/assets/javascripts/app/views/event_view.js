@@ -43,18 +43,50 @@ var toggleSingleEvent = function( li ) {
 
       li.append("<dl>"
         +"<dt>Attendances</dt><dd class=\"a\">"+event.event_attendances.length+"</dd>"
-        +"<dt>Invitations</dt><dd class=\"i\">"+event.event_invitations.length+"</dd>"
         +"<i data-id=\""+event.id+"\" class=\"entypo entypo-check\"></i>"
+        +"<dt>Invitations</dt><dd class=\"i\">"+event.event_invitations.length+"</dd>"
+        +"<i data-id=\""+event.id+"\" class=\"entypo entypo-user\"></i>"
+        +"<input class=\"form-control invitee\" type=\"text\"/><i  data-id=\""+event.id+"\" class=\"entypo entypo-right-bold\"></i>"
         +"</dl>"
       );
+
       if( currentUserIsAttending(event.event_attendances) ){
         $("#"+event.id+" i.entypo-check").addClass('attending');
       }
       $("#"+event.id+" i.entypo-check").on("click",function(click){
         toggleAttendance(click.currentTarget);
       });
+
+      if( currentUserIsInvited(event.event_invitations) ){
+        $("#"+event.id+" i.entypo-user").addClass('invited');
+      }
+      $("#"+event.id+" i.entypo-right-bold").on("click",function(click){
+        inviteSomeone(click.currentTarget);
+      });
     });
   }
+}
+
+var inviteSomeone = function(i){
+
+  var invitee = $("li#"+i.dataset.id+" input.invitee").val();
+  if ( parseInt(invitee) > 0 ){
+
+    $.post( "/event_invitations", {
+        event: i.dataset.id,
+        invitee: invitee
+      })
+      .fail(function(data) {
+        console.error( data );
+      })
+      .done(function(data){
+        var counter = $("li#"+i.dataset.id+" dd.i");
+        counter.text( parseInt(counter.html()) + 1 );
+    });
+  } else {
+    console.error("enter a number, stupid!");
+  }
+
 }
 
 var toggleAttendance = function(i){
@@ -107,6 +139,18 @@ var currentUserIsAttending = function( attendances ) {
     };
   });
   return currentUserAttendance;
+}
+
+var currentUserIsInvited = function( invitations ) {
+  var currentUserInvited = false;
+  var currentUserId = app.user().id;
+  $.each(invitations, function(key,invitation){
+    if ( currentUserId == invitation.invitee_id ) {
+      currentUserInvited = true;
+      return false; //break
+    };
+  });
+  return currentUserInvited;
 }
 
 $( document ).ready(function() {

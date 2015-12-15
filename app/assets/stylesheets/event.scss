@@ -10,7 +10,9 @@
     i {
       font-size: 1.3em;
       color: #c0c0c0;
-      &.attending {
+      padding: 0 2em 0 0.15em;
+      &.attending,
+      &.invited {
         color: #0044FF;
       }
     }
@@ -24,6 +26,10 @@
     dd {
       display: inline;
       padding: 0 1em;
+    }
+    input {
+      display: inline;
+      width: 2.5em;
     }
   }
 
