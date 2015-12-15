@@ -42,8 +42,8 @@ var toggleSingleEvent = function( li ) {
       event = data.event;
 
       li.append("<dl>"
-        +"<dt>Attendances</dt><dd>"+event.event_attendances.length+"</dd>"
-        +"<dt>Invitations</dt><dd>"+event.event_invitations.length+"</dd>"
+        +"<dt>Attendances</dt><dd class=\"a\">"+event.event_attendances.length+"</dd>"
+        +"<dt>Invitations</dt><dd class=\"i\">"+event.event_invitations.length+"</dd>"
         +"<i data-id=\""+event.id+"\" class=\"entypo entypo-check\"></i>"
         +"</dl>"
       );
@@ -71,6 +71,8 @@ var toggleAttendance = function(i){
               contentType: "application/json",
               success: function(suc) {
                 $(i).removeClass("attending")
+                  var counter = $("li#"+i.dataset.id+" dd.a");
+                  counter.text( parseInt(counter.html()) - 1 );
               },
               error: function(err) {
                 console.error(err);
@@ -86,7 +88,9 @@ var toggleAttendance = function(i){
 
     $.post( "/event_attendances", { event: i.dataset.id } )
       .done(function(data){
-        $(i).addClass("attending")
+        $(i).addClass("attending");
+        var counter = $("li#"+i.dataset.id+" dd.a");
+        counter.text( parseInt(counter.html()) + 1 );
     });
 
   }
