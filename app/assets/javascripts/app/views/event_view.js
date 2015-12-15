@@ -68,7 +68,7 @@ $( document ).ready(function() {
   });
 
   console.log("ready");
-
+  updateEventsList();
   // setInterval(function() { updateEventsList(); }, 3000);
 
 });
